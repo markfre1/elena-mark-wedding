@@ -917,6 +917,447 @@
     font-size: 0.9rem;
   }
 
+  /* ════════ TABS ════════ */
+  .tabs {
+    display: flex;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 2rem;
+    padding-bottom: 0;
+  }
+
+  .tab {
+    background: transparent;
+    border: none;
+    padding: 0.85rem 1.5rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.2s ease;
+    letter-spacing: 0.02em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .tab:hover { color: var(--ink); }
+
+  .tab.active {
+    color: var(--wine);
+    border-bottom-color: var(--wine);
+    font-weight: 600;
+  }
+
+  .tab-count {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    background: var(--rule-soft);
+    color: var(--ink-soft);
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+
+  .tab.active .tab-count {
+    background: var(--wine);
+    color: var(--paper);
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ════════ GUEST LIST ════════ */
+  .guest-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+  }
+
+  .summary-stat {
+    text-align: center;
+    padding: 0.5rem 0.5rem;
+    border-right: 1px solid var(--rule-soft);
+  }
+
+  .summary-stat:last-child { border-right: none; }
+
+  .summary-stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.25rem;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .summary-stat-num.attending { color: var(--sage); }
+  .summary-stat-num.declined { color: var(--ink-muted); }
+  .summary-stat-num.pending { color: var(--gold); }
+
+  .summary-stat-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-top: 0.4rem;
+    font-weight: 500;
+  }
+
+  .guest-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+    align-items: center;
+  }
+
+  .guest-search {
+    flex: 1;
+    min-width: 200px;
+    padding: 0.65rem 1rem;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    background: var(--paper);
+    color: var(--ink);
+    transition: border-color 0.2s ease;
+  }
+
+  .guest-search:focus {
+    outline: none;
+    border-color: var(--wine);
+  }
+
+  .guest-filter-pill {
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 0.45rem 0.95rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .guest-filter-pill:hover {
+    background: var(--rule-soft);
+    color: var(--ink);
+  }
+
+  .guest-filter-pill.active {
+    background: var(--wine);
+    color: var(--paper);
+    border-color: var(--wine);
+  }
+
+  .guest-table-wrap {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .guest-row {
+    display: grid;
+    grid-template-columns: 1.5fr 0.7fr 0.8fr auto;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid var(--rule-soft);
+    transition: background 0.15s ease;
+  }
+
+  .guest-row:last-child { border-bottom: none; }
+
+  .guest-row.header {
+    background: var(--rule-soft);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    font-weight: 500;
+    padding: 0.65rem 1.25rem;
+  }
+
+  .guest-row:not(.header):hover { background: rgba(217, 184, 167, 0.05); }
+
+  .guest-row.expanded { background: var(--cream); }
+
+  .guest-name-cell {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .guest-name {
+    font-size: 0.98rem;
+    color: var(--ink);
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .guest-name:hover { color: var(--wine); }
+
+  .guest-plus-one {
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    font-style: italic;
+  }
+
+  .guest-meta {
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .guest-meta-pill {
+    background: var(--rule-soft);
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+  }
+
+  .guest-meta-pill.side-elena { background: rgba(217, 184, 167, 0.35); color: #8a4a5a; }
+  .guest-meta-pill.side-mark  { background: rgba(122, 139, 106, 0.25); color: #4a5a3a; }
+  .guest-meta-pill.side-both  { background: rgba(184, 146, 74, 0.2);  color: #7a5a2a; }
+
+  .rsvp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    font-weight: 500;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .rsvp-badge.yes      { background: rgba(122, 139, 106, 0.2); color: #4a5a3a; }
+  .rsvp-badge.no       { background: var(--rule-soft); color: var(--ink-muted); text-decoration: line-through; }
+  .rsvp-badge.maybe    { background: rgba(184, 146, 74, 0.2); color: #7a5a2a; }
+  .rsvp-badge.pending  { background: transparent; color: var(--ink-muted); border: 1px dashed var(--rule); }
+
+  .rsvp-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .guest-actions {
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+  }
+
+  .guest-action-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--ink-muted);
+    padding: 5px;
+    border-radius: 3px;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.15s ease;
+  }
+
+  .guest-action-btn:hover {
+    color: var(--wine);
+    background: var(--rule-soft);
+  }
+
+  /* Expanded edit form */
+  .guest-detail {
+    grid-column: 1 / -1;
+    padding: 1.25rem;
+    background: var(--cream);
+    border-top: 1px solid var(--rule-soft);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .field-full { grid-column: 1 / -1; }
+
+  .field-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    font-weight: 500;
+  }
+
+  .field-input,
+  .field-select,
+  .field-textarea {
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    background: var(--paper);
+    color: var(--ink);
+    transition: border-color 0.2s ease;
+  }
+
+  .field-input:focus,
+  .field-select:focus,
+  .field-textarea:focus {
+    outline: none;
+    border-color: var(--wine);
+  }
+
+  .field-textarea { resize: vertical; min-height: 60px; }
+
+  .rsvp-segment {
+    display: flex;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--paper);
+  }
+
+  .rsvp-segment button {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 0.55rem 0.5rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.78rem;
+    cursor: pointer;
+    color: var(--ink-muted);
+    transition: all 0.15s ease;
+    border-right: 1px solid var(--rule-soft);
+  }
+
+  .rsvp-segment button:last-child { border-right: none; }
+  .rsvp-segment button:hover { background: var(--rule-soft); color: var(--ink); }
+
+  .rsvp-segment button.active {
+    background: var(--wine);
+    color: var(--paper);
+  }
+  .rsvp-segment button.active.no { background: var(--ink-muted); }
+  .rsvp-segment button.active.maybe { background: var(--gold); }
+  .rsvp-segment button.active.yes { background: var(--sage); }
+
+  .checkbox-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    grid-column: 1 / -1;
+    padding-top: 0.5rem;
+  }
+
+  .checkbox-row label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .checkbox-row input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--sage);
+    cursor: pointer;
+  }
+
+  .detail-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-top: 0.5rem;
+  }
+
+  .add-guest-bar {
+    display: flex;
+    gap: 0.6rem;
+    padding: 1rem 1.25rem;
+    background: var(--cream);
+    border-top: 1px dashed var(--rule);
+  }
+
+  .add-guest-input {
+    flex: 1;
+    padding: 0.55rem 0.85rem;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    background: var(--paper);
+  }
+
+  .add-guest-input:focus {
+    outline: none;
+    border-color: var(--wine);
+  }
+
+  .add-guest-btn {
+    padding: 0.5rem 1.25rem;
+    background: var(--wine);
+    color: var(--paper);
+    border: none;
+    border-radius: 3px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .add-guest-btn:hover { background: var(--ink); }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    color: var(--ink-muted);
+  }
+
+  .empty-state-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.4;
+  }
+
+  .empty-state-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+  }
+
   /* Mobile */
   @media (max-width: 640px) {
     body { padding: 1rem 0.5rem 3rem; }
@@ -935,6 +1376,33 @@
     .item { padding: 0.75rem 1rem; }
     .add-item-wrap { padding: 0.75rem 1rem 1rem; }
     .toolbar .btn { font-size: 0.7rem; padding: 0.6rem 1rem; }
+
+    /* Tabs on mobile */
+    .tabs { gap: 0; }
+    .tab { padding: 0.7rem 1rem; font-size: 1rem; }
+    .tab-count { font-size: 0.6rem; padding: 0.1rem 0.4rem; }
+
+    /* Guest list mobile */
+    .guest-summary { padding: 1rem; gap: 0.5rem; }
+    .summary-stat { padding: 0.4rem 0.2rem; border-right: none; border-bottom: 1px solid var(--rule-soft); }
+    .summary-stat:nth-last-child(-n+2) { border-bottom: none; }
+    .summary-stat-num { font-size: 1.6rem; }
+    .summary-stat-label { font-size: 0.6rem; letter-spacing: 0.1em; }
+
+    .guest-row {
+      grid-template-columns: 1fr auto;
+      gap: 0.5rem;
+      padding: 0.85rem 1rem;
+    }
+    .guest-row.header { display: none; }
+    .guest-row .guest-meta-cell { display: none; }
+    .guest-row .rsvp-cell {
+      grid-column: 1 / -1;
+      padding-top: 0.25rem;
+    }
+    .guest-detail { padding: 1rem; gap: 0.75rem; }
+    .add-guest-bar { padding: 0.75rem 1rem; flex-direction: column; }
+    .add-guest-btn { width: 100%; }
   }
 
   /* PRINT STYLES */
@@ -957,7 +1425,48 @@
     /* Hide interactive UI */
     .toolbar, .add-item-wrap, .item-actions, .footer, .toast,
     .modal-backdrop, .section-chevron, .hidden-footer,
-    .sync-indicator, .setup-banner, .loading-state, .attention-bar { display: none !important; }
+    .sync-indicator, .setup-banner, .loading-state, .attention-bar,
+    .tabs, .guest-toolbar, .guest-actions, .add-guest-bar, .guest-detail { display: none !important; }
+
+    /* When printing, only show the active panel */
+    .tab-panel { display: none !important; }
+    .tab-panel.active { display: block !important; }
+
+    /* Guest list print */
+    .guest-summary {
+      box-shadow: none !important;
+      border: 1px solid #000 !important;
+      page-break-inside: avoid;
+      padding: 0.75rem 1rem !important;
+      margin-bottom: 1rem !important;
+    }
+    .summary-stat-num { color: #000 !important; font-size: 1.4rem !important; }
+    .guest-table-wrap {
+      box-shadow: none !important;
+      border: 1px solid #000 !important;
+    }
+    .guest-row {
+      grid-template-columns: 1.2fr 0.6fr 0.7fr !important;
+      padding: 0.3rem 0.75rem !important;
+      page-break-inside: avoid;
+    }
+    .guest-row.header {
+      background: #f0f0f0 !important;
+      color: #000 !important;
+    }
+    .rsvp-badge {
+      border: 1px solid #888 !important;
+      color: #000 !important;
+      background: transparent !important;
+      font-size: 8pt !important;
+    }
+    .rsvp-badge::before { display: none !important; }
+    .guest-meta-pill {
+      background: transparent !important;
+      border: 1px solid #888 !important;
+      color: #000 !important;
+      font-size: 7.5pt !important;
+    }
 
     /* Dates: show as plain text in print */
     .date-field {
@@ -1132,28 +1641,63 @@
       </div>
     </div>
 
-    <div class="toolbar">
-      <button class="btn btn-primary" onclick="window.print()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
-        Print
+    <div class="tabs">
+      <button class="tab active" id="tab-checklist" onclick="switchTab('checklist')">
+        Checklist
+        <span class="tab-count" id="checklistCount">0</span>
       </button>
-      <button class="btn" onclick="exportCalendar()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        Calendar
+      <button class="tab" id="tab-guests" onclick="switchTab('guests')">
+        Guest List
+        <span class="tab-count" id="guestsCount">0</span>
       </button>
-      <button class="btn btn-ghost" onclick="expandAll()">Expand All</button>
-      <button class="btn btn-ghost" onclick="collapseAll()">Collapse All</button>
-      <button class="btn btn-ghost" onclick="confirmReset()">Reset</button>
-      <span class="sync-indicator" id="syncIndicator">
-        <span class="sync-dot"></span>
-        <span id="syncLabel">Connecting…</span>
-      </span>
     </div>
 
-    <div id="setupBanner"></div>
-    <div class="attention-bar" id="attentionBar"></div>
+    <div class="tab-panel active" id="panel-checklist">
+      <div class="toolbar">
+        <button class="btn btn-primary" onclick="window.print()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+          Print
+        </button>
+        <button class="btn" onclick="exportCalendar()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Calendar
+        </button>
+        <button class="btn btn-ghost" onclick="expandAll()">Expand All</button>
+        <button class="btn btn-ghost" onclick="collapseAll()">Collapse All</button>
+        <button class="btn btn-ghost" onclick="confirmReset()">Reset</button>
+        <span class="sync-indicator" id="syncIndicator">
+          <span class="sync-dot"></span>
+          <span id="syncLabel">Connecting…</span>
+        </span>
+      </div>
 
-    <div id="checklist"></div>
+      <div id="setupBanner"></div>
+      <div class="attention-bar" id="attentionBar"></div>
+
+      <div id="checklist"></div>
+    </div>
+
+    <div class="tab-panel" id="panel-guests">
+      <div class="guest-summary" id="guestSummary"></div>
+
+      <div class="guest-toolbar">
+        <input type="text" class="guest-search" id="guestSearch" placeholder="Search by name…" oninput="renderGuests()">
+        <button class="guest-filter-pill active" data-filter="all" onclick="setGuestFilter('all')">All</button>
+        <button class="guest-filter-pill" data-filter="yes" onclick="setGuestFilter('yes')">Attending</button>
+        <button class="guest-filter-pill" data-filter="pending" onclick="setGuestFilter('pending')">No Reply</button>
+        <button class="guest-filter-pill" data-filter="no" onclick="setGuestFilter('no')">Declined</button>
+        <button class="btn btn-primary" onclick="window.print()" style="margin-left: auto;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+          Print
+        </button>
+        <button class="btn btn-ghost" onclick="exportGuestsCSV()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Export CSV
+        </button>
+      </div>
+
+      <div class="guest-table-wrap" id="guestTableWrap"></div>
+    </div>
 
     <footer class="footer">
       <p class="footer-text">Tap any item to check it off. Set start &amp; due dates to track timing. Click <em>Calendar</em> to download all due dates with 1-week reminders into your phone or Google Calendar.</p>
@@ -1164,8 +1708,8 @@
 
   <div class="modal-backdrop" id="modal">
     <div class="modal">
-      <h3>Reset checklist?</h3>
-      <p>This will uncheck every item, clear all your notes, and remove any custom items you've added. This cannot be undone.</p>
+      <h3>Reset everything?</h3>
+      <p>This will uncheck every checklist item, clear all notes and dates, remove custom items, AND delete your entire guest list. This cannot be undone.</p>
       <div class="modal-actions">
         <button class="btn btn-ghost" onclick="hideModal()">Cancel</button>
         <button class="btn btn-primary" onclick="resetAll()">Yes, reset everything</button>
@@ -1363,11 +1907,16 @@ const DEFAULT_SECTIONS = [
 
 // State
 let state = {
-  items: {}, // { itemId: { checked: bool, note: string } }
+  items: {}, // { itemId: { checked: bool, note: string, startDate, dueDate } }
   customItems: {}, // { sectionId: [{ id, label }] }
   collapsed: {}, // { sectionId: bool }
   deleted: {}, // { itemId: true }
+  guests: [], // [{ id, name, plusOneName, side, group, email, phone, address, notes, savedTheDate, invited, rsvp, thankYouSent }]
 };
+
+let guestFilter = 'all';
+let expandedGuestId = null;
+let currentTab = 'checklist';
 
 // Storage — Supabase
 function setSyncStatus(status, label) {
@@ -1418,6 +1967,7 @@ async function loadState() {
         customItems: data.data.customItems || {},
         collapsed: data.data.collapsed || {},
         deleted: data.data.deleted || {},
+        guests: Array.isArray(data.data.guests) ? data.data.guests : [],
       };
     }
     setSyncStatus('synced', 'Synced');
@@ -1452,8 +2002,10 @@ function subscribeToChanges() {
         customItems: incoming.customItems || {},
         collapsed: state.collapsed, // preserve local collapse state
         deleted: incoming.deleted || {},
+        guests: Array.isArray(incoming.guests) ? incoming.guests : [],
       };
       renderChecklist();
+      renderGuests();
       setSyncStatus('synced', 'Updated');
       setTimeout(() => setSyncStatus('synced', 'Synced'), 1500);
     })
@@ -1554,6 +2106,7 @@ function renderChecklist() {
   document.getElementById('progressBar').style.width = pct + '%';
 
   updateAttentionCount();
+  updateTabCounts();
 }
 
 function renderItem(item, sectionId) {
@@ -1962,6 +2515,435 @@ function exportCalendar() {
   showToast(`Calendar exported · ${events.length} event${events.length === 1 ? '' : 's'}`);
 }
 
+// ════════════ TABS ════════════
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach((t) => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach((p) => p.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('panel-' + tab).classList.add('active');
+}
+
+// ════════════ GUESTS ════════════
+function newGuestId() {
+  return 'g_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 6);
+}
+
+function setGuestFilter(filter) {
+  guestFilter = filter;
+  document.querySelectorAll('.guest-filter-pill').forEach((p) => {
+    p.classList.toggle('active', p.dataset.filter === filter);
+  });
+  renderGuests();
+}
+
+function getRsvpInfo(rsvp) {
+  if (rsvp === 'yes')   return { cls: 'yes',     label: 'Attending' };
+  if (rsvp === 'no')    return { cls: 'no',      label: 'Declined' };
+  if (rsvp === 'maybe') return { cls: 'maybe',   label: 'Maybe' };
+  return                       { cls: 'pending', label: 'No reply' };
+}
+
+function getSideInfo(side) {
+  if (side === 'elena') return { cls: 'side-elena', label: "Elena's" };
+  if (side === 'mark')  return { cls: 'side-mark',  label: "Mark's" };
+  if (side === 'both')  return { cls: 'side-both',  label: 'Both' };
+  return null;
+}
+
+function renderGuests() {
+  const wrap = document.getElementById('guestTableWrap');
+  if (!wrap) return;
+
+  const search = (document.getElementById('guestSearch')?.value || '').toLowerCase().trim();
+  let guests = state.guests || [];
+
+  // Filter by RSVP status
+  if (guestFilter === 'yes')     guests = guests.filter((g) => g.rsvp === 'yes');
+  if (guestFilter === 'no')      guests = guests.filter((g) => g.rsvp === 'no');
+  if (guestFilter === 'pending') guests = guests.filter((g) => !g.rsvp || g.rsvp === '' || g.rsvp === 'maybe');
+
+  // Filter by search
+  if (search) {
+    guests = guests.filter((g) =>
+      (g.name || '').toLowerCase().includes(search) ||
+      (g.plusOneName || '').toLowerCase().includes(search) ||
+      (g.group || '').toLowerCase().includes(search) ||
+      (g.email || '').toLowerCase().includes(search)
+    );
+  }
+
+  // Sort: alphabetical by name
+  guests.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+
+  let html = `
+    <div class="guest-row header">
+      <div>Name</div>
+      <div class="guest-meta-cell">Side / Group</div>
+      <div>RSVP</div>
+      <div></div>
+    </div>
+  `;
+
+  if (guests.length === 0) {
+    html += `
+      <div class="empty-state">
+        <div class="empty-state-icon">✿</div>
+        <div class="empty-state-text">${state.guests.length === 0 ? 'No guests yet — add your first guest below' : 'No guests match those filters'}</div>
+      </div>
+    `;
+  } else {
+    guests.forEach((g) => {
+      html += renderGuestRow(g);
+    });
+  }
+
+  // Add-guest bar always at the bottom
+  html += `
+    <div class="add-guest-bar">
+      <input type="text" class="add-guest-input" id="addGuestInput" placeholder="Quick add: type a guest name and press Enter" onkeydown="handleQuickAddGuest(event)">
+      <button class="add-guest-btn" onclick="addGuestFromInput()">Add Guest</button>
+    </div>
+  `;
+
+  wrap.innerHTML = html;
+  renderGuestSummary();
+  updateTabCounts();
+}
+
+function renderGuestRow(g) {
+  const isExpanded = expandedGuestId === g.id;
+  const rsvpInfo = getRsvpInfo(g.rsvp);
+  const sideInfo = getSideInfo(g.side);
+
+  let metaPills = '';
+  if (sideInfo) metaPills += `<span class="guest-meta-pill ${sideInfo.cls}">${sideInfo.label}</span>`;
+  if (g.group) metaPills += `<span class="guest-meta-pill">${escapeHtml(g.group)}</span>`;
+
+  return `
+    <div class="guest-row ${isExpanded ? 'expanded' : ''}" id="guest-${g.id}">
+      <div class="guest-name-cell">
+        <span class="guest-name" onclick="toggleGuestDetail('${g.id}')">${escapeHtml(g.name || '(no name)')}</span>
+        ${g.plusOneName ? `<span class="guest-plus-one">+ ${escapeHtml(g.plusOneName)}</span>` : ''}
+      </div>
+      <div class="guest-meta guest-meta-cell">${metaPills || '<span style="color:var(--ink-muted); font-style:italic;">—</span>'}</div>
+      <div class="rsvp-cell"><span class="rsvp-badge ${rsvpInfo.cls}">${rsvpInfo.label}</span></div>
+      <div class="guest-actions">
+        <button class="guest-action-btn" onclick="toggleGuestDetail('${g.id}')" title="${isExpanded ? 'Close' : 'Edit details'}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            ${isExpanded
+              ? '<polyline points="18 15 12 9 6 15"/>'
+              : '<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>'
+            }
+          </svg>
+        </button>
+      </div>
+      ${isExpanded ? renderGuestDetail(g) : ''}
+    </div>
+  `;
+}
+
+function renderGuestDetail(g) {
+  return `
+    <div class="guest-detail" onclick="event.stopPropagation()">
+      <div class="field">
+        <label class="field-label">Name</label>
+        <input class="field-input" type="text" value="${escapeAttr(g.name || '')}" oninput="updateGuestField('${g.id}', 'name', this.value)">
+      </div>
+      <div class="field">
+        <label class="field-label">Plus-One Name</label>
+        <input class="field-input" type="text" value="${escapeAttr(g.plusOneName || '')}" placeholder="Leave blank if no plus-one" oninput="updateGuestField('${g.id}', 'plusOneName', this.value)">
+      </div>
+      <div class="field">
+        <label class="field-label">Side</label>
+        <select class="field-select" onchange="updateGuestField('${g.id}', 'side', this.value)">
+          <option value="" ${!g.side ? 'selected' : ''}>—</option>
+          <option value="elena" ${g.side === 'elena' ? 'selected' : ''}>Elena's</option>
+          <option value="mark"  ${g.side === 'mark'  ? 'selected' : ''}>Mark's</option>
+          <option value="both"  ${g.side === 'both'  ? 'selected' : ''}>Both</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label">Group</label>
+        <input class="field-input" type="text" value="${escapeAttr(g.group || '')}" placeholder="e.g. Family, College friends" oninput="updateGuestField('${g.id}', 'group', this.value)">
+      </div>
+      <div class="field">
+        <label class="field-label">Email</label>
+        <input class="field-input" type="email" value="${escapeAttr(g.email || '')}" oninput="updateGuestField('${g.id}', 'email', this.value)">
+      </div>
+      <div class="field">
+        <label class="field-label">Phone</label>
+        <input class="field-input" type="tel" value="${escapeAttr(g.phone || '')}" oninput="updateGuestField('${g.id}', 'phone', this.value)">
+      </div>
+      <div class="field field-full">
+        <label class="field-label">Mailing Address</label>
+        <input class="field-input" type="text" value="${escapeAttr(g.address || '')}" placeholder="For invitations & save-the-dates" oninput="updateGuestField('${g.id}', 'address', this.value)">
+      </div>
+      <div class="field field-full">
+        <label class="field-label">RSVP Status</label>
+        <div class="rsvp-segment">
+          <button class="${(!g.rsvp || g.rsvp === '') ? 'active' : ''}" onclick="updateGuestField('${g.id}', 'rsvp', '')">No reply</button>
+          <button class="yes ${g.rsvp === 'yes' ? 'active' : ''}" onclick="updateGuestField('${g.id}', 'rsvp', 'yes')">Attending</button>
+          <button class="maybe ${g.rsvp === 'maybe' ? 'active' : ''}" onclick="updateGuestField('${g.id}', 'rsvp', 'maybe')">Maybe</button>
+          <button class="no ${g.rsvp === 'no' ? 'active' : ''}" onclick="updateGuestField('${g.id}', 'rsvp', 'no')">Declined</button>
+        </div>
+      </div>
+      <div class="field field-full">
+        <label class="field-label">Notes</label>
+        <textarea class="field-textarea" placeholder="Dietary needs, accessibility, gift received, etc." oninput="updateGuestField('${g.id}', 'notes', this.value)">${escapeHtml(g.notes || '')}</textarea>
+      </div>
+      <div class="checkbox-row">
+        <label><input type="checkbox" ${g.savedTheDate ? 'checked' : ''} onchange="updateGuestField('${g.id}', 'savedTheDate', this.checked)"> Save-the-date sent</label>
+        <label><input type="checkbox" ${g.invited      ? 'checked' : ''} onchange="updateGuestField('${g.id}', 'invited',      this.checked)"> Invitation sent</label>
+        <label><input type="checkbox" ${g.thankYouSent ? 'checked' : ''} onchange="updateGuestField('${g.id}', 'thankYouSent', this.checked)"> Thank-you sent</label>
+      </div>
+      <div class="detail-actions">
+        <button class="btn btn-ghost" onclick="confirmDeleteGuest('${g.id}')" style="color:var(--wine);">Delete guest</button>
+        <button class="btn btn-primary" onclick="toggleGuestDetail('${g.id}')">Done</button>
+      </div>
+    </div>
+  `;
+}
+
+function escapeAttr(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+}
+
+function renderGuestSummary() {
+  const el = document.getElementById('guestSummary');
+  if (!el) return;
+  const guests = state.guests || [];
+
+  let totalInvited = 0;   // number of invited people (counting plus-ones)
+  let attending = 0;
+  let declined = 0;
+  let pending = 0;
+  let maybe = 0;
+
+  guests.forEach((g) => {
+    const seats = 1 + (g.plusOneName && g.plusOneName.trim() ? 1 : 0);
+    totalInvited += seats;
+    if (g.rsvp === 'yes')      attending += seats;
+    else if (g.rsvp === 'no')  declined  += seats;
+    else if (g.rsvp === 'maybe') maybe   += seats;
+    else                        pending  += seats;
+  });
+
+  el.innerHTML = `
+    <div class="summary-stat">
+      <div class="summary-stat-num">${guests.length}</div>
+      <div class="summary-stat-label">Guests</div>
+    </div>
+    <div class="summary-stat">
+      <div class="summary-stat-num">${totalInvited}</div>
+      <div class="summary-stat-label">Total Invited</div>
+    </div>
+    <div class="summary-stat">
+      <div class="summary-stat-num attending">${attending}</div>
+      <div class="summary-stat-label">Attending</div>
+    </div>
+    <div class="summary-stat">
+      <div class="summary-stat-num pending">${pending + maybe}</div>
+      <div class="summary-stat-label">No Reply</div>
+    </div>
+    <div class="summary-stat">
+      <div class="summary-stat-num declined">${declined}</div>
+      <div class="summary-stat-label">Declined</div>
+    </div>
+  `;
+}
+
+function updateTabCounts() {
+  // Checklist count: pending items
+  let totalItems = 0;
+  let doneItems = 0;
+  DEFAULT_SECTIONS.forEach((s) => {
+    const all = [
+      ...s.items.map((label, idx) => makeItemId(s.id, idx, label)),
+      ...((state.customItems[s.id] || []).map((it) => it.id)),
+    ].filter((id) => !state.deleted[id]);
+    totalItems += all.length;
+    doneItems += all.filter((id) => state.items[id]?.checked).length;
+  });
+  const cl = document.getElementById('checklistCount');
+  if (cl) cl.textContent = `${doneItems}/${totalItems}`;
+
+  // Guest count: total guests
+  const gc = document.getElementById('guestsCount');
+  if (gc) gc.textContent = String((state.guests || []).length);
+}
+
+function toggleGuestDetail(id) {
+  expandedGuestId = (expandedGuestId === id) ? null : id;
+  renderGuests();
+  // Scroll the row into view if newly expanded
+  if (expandedGuestId === id) {
+    setTimeout(() => {
+      const row = document.getElementById('guest-' + id);
+      if (row) row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 30);
+  }
+}
+
+let guestSaveTimer;
+function updateGuestField(id, field, value) {
+  const idx = state.guests.findIndex((g) => g.id === id);
+  if (idx === -1) return;
+  state.guests[idx][field] = value;
+  // Re-render only the summary and badge — but for select changes we need a fresh row
+  // For text fields we debounce to avoid losing focus
+  clearTimeout(guestSaveTimer);
+  guestSaveTimer = setTimeout(() => {
+    saveState();
+    // Re-render summary numbers & meta pills without losing focus
+    renderGuestSummary();
+    updateTabCounts();
+    // Update non-input parts of the row in place
+    refreshGuestRowMeta(id);
+  }, 300);
+}
+
+function refreshGuestRowMeta(id) {
+  const g = state.guests.find((x) => x.id === id);
+  if (!g) return;
+  const row = document.getElementById('guest-' + id);
+  if (!row) return;
+  const nameEl = row.querySelector('.guest-name');
+  const plusOneEl = row.querySelector('.guest-plus-one');
+  const rsvpEl = row.querySelector('.rsvp-badge');
+  const metaEl = row.querySelector('.guest-meta');
+
+  if (nameEl) nameEl.textContent = g.name || '(no name)';
+
+  // Plus-one display
+  if (g.plusOneName && g.plusOneName.trim()) {
+    if (plusOneEl) {
+      plusOneEl.textContent = '+ ' + g.plusOneName;
+    } else {
+      const span = document.createElement('span');
+      span.className = 'guest-plus-one';
+      span.textContent = '+ ' + g.plusOneName;
+      nameEl.parentElement.appendChild(span);
+    }
+  } else if (plusOneEl) {
+    plusOneEl.remove();
+  }
+
+  // RSVP badge
+  if (rsvpEl) {
+    const info = getRsvpInfo(g.rsvp);
+    rsvpEl.className = 'rsvp-badge ' + info.cls;
+    rsvpEl.textContent = info.label;
+  }
+
+  // Meta pills
+  if (metaEl) {
+    const sideInfo = getSideInfo(g.side);
+    let html = '';
+    if (sideInfo) html += `<span class="guest-meta-pill ${sideInfo.cls}">${sideInfo.label}</span>`;
+    if (g.group)  html += `<span class="guest-meta-pill">${escapeHtml(g.group)}</span>`;
+    metaEl.innerHTML = html || '<span style="color:var(--ink-muted); font-style:italic;">—</span>';
+  }
+}
+
+function handleQuickAddGuest(e) {
+  if (e.key !== 'Enter') return;
+  addGuestFromInput();
+}
+
+function addGuestFromInput() {
+  const input = document.getElementById('addGuestInput');
+  if (!input) return;
+  const name = input.value.trim();
+  if (!name) return;
+  const guest = {
+    id: newGuestId(),
+    name: name,
+    plusOneName: '',
+    side: '',
+    group: '',
+    email: '',
+    phone: '',
+    address: '',
+    notes: '',
+    rsvp: '',
+    savedTheDate: false,
+    invited: false,
+    thankYouSent: false,
+  };
+  state.guests.push(guest);
+  input.value = '';
+  saveState();
+  renderGuests();
+  showToast(`Added ${name}`);
+}
+
+function confirmDeleteGuest(id) {
+  const g = state.guests.find((x) => x.id === id);
+  if (!g) return;
+  if (!confirm(`Delete ${g.name || 'this guest'} from the list?`)) return;
+  state.guests = state.guests.filter((x) => x.id !== id);
+  if (expandedGuestId === id) expandedGuestId = null;
+  saveState();
+  renderGuests();
+  showToast('Guest removed');
+}
+
+function exportGuestsCSV() {
+  const guests = state.guests || [];
+  if (guests.length === 0) {
+    showToast('No guests to export');
+    return;
+  }
+
+  const header = ['Name', 'Plus-One', 'Side', 'Group', 'RSVP', 'Email', 'Phone', 'Address', 'Save-the-Date', 'Invited', 'Thank-You', 'Notes'];
+  const rows = [header];
+
+  const rsvpText = (r) => r === 'yes' ? 'Attending' : r === 'no' ? 'Declined' : r === 'maybe' ? 'Maybe' : 'No reply';
+  const sideText = (s) => s === 'elena' ? "Elena's" : s === 'mark' ? "Mark's" : s === 'both' ? 'Both' : '';
+  const yn = (b) => b ? 'Yes' : '';
+
+  guests.forEach((g) => {
+    rows.push([
+      g.name || '',
+      g.plusOneName || '',
+      sideText(g.side),
+      g.group || '',
+      rsvpText(g.rsvp),
+      g.email || '',
+      g.phone || '',
+      g.address || '',
+      yn(g.savedTheDate),
+      yn(g.invited),
+      yn(g.thankYouSent),
+      (g.notes || '').replace(/\n/g, ' '),
+    ]);
+  });
+
+  const csv = rows.map((row) =>
+    row.map((cell) => {
+      const s = String(cell);
+      // Quote if contains comma, quote, or newline
+      if (/[",\n]/.test(s)) {
+        return '"' + s.replace(/"/g, '""') + '"';
+      }
+      return s;
+    }).join(',')
+  ).join('\r\n');
+
+  const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'wedding-guest-list.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 100);
+
+  showToast(`Exported ${guests.length} guest${guests.length === 1 ? '' : 's'}`);
+}
+
 function showToast(msg) {
   const toast = document.getElementById('toast');
   toast.textContent = msg;
@@ -1978,10 +2960,11 @@ function hideModal() {
 }
 
 async function resetAll() {
-  state = { items: {}, customItems: {}, collapsed: {}, deleted: {} };
+  state = { items: {}, customItems: {}, collapsed: {}, deleted: {}, guests: [] };
   await saveState();
   hideModal();
   renderChecklist();
+  renderGuests();
   showToast('Checklist reset');
 }
 
@@ -1994,6 +2977,7 @@ async function resetAll() {
   if (!isConfigured) {
     showSetupBanner();
     renderChecklist();
+    renderGuests();
     return;
   }
 
@@ -2003,12 +2987,14 @@ async function resetAll() {
     console.error('Supabase init failed:', e);
     showSetupBanner();
     renderChecklist();
+    renderGuests();
     return;
   }
 
   document.getElementById('checklist').innerHTML = '<div class="loading-state">Loading your checklist…</div>';
   await loadState();
   renderChecklist();
+  renderGuests();
   subscribeToChanges();
 })();
 
