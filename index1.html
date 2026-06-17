@@ -46,6 +46,7 @@
   .hotel{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
     display:flex;flex-direction:column;transition:.18s;cursor:pointer}
   .hotel:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(80,70,50,.14)}
+  .hotel.isbase{border:2px solid var(--gold);box-shadow:0 6px 20px rgba(184,155,94,.22)}
   .hotel .photo{height:150px;background:#E7E1D2 center/cover no-repeat;position:relative}
   .badge{position:absolute;top:10px;left:10px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;
     font-weight:600;color:#fff;padding:4px 9px;border-radius:999px;backdrop-filter:blur(2px)}
@@ -89,6 +90,17 @@
     display:flex;justify-content:space-between;gap:14px;align-items:baseline}
   .sumcol li span{color:var(--soft);white-space:nowrap;font-size:12.5px}
   @media(max-width:560px){.summary{grid-template-columns:1fr;gap:8px}}
+  .ttwrap{overflow-x:auto;margin-top:12px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+  table.tt{width:100%;border-collapse:collapse;font-size:13.5px}
+  table.tt th{text-align:left;font-weight:600;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--saged);padding:11px 14px;border-bottom:2px solid var(--line)}
+  table.tt th.r,table.tt td.r{text-align:right;white-space:nowrap}
+  table.tt td{padding:10px 14px;border-bottom:1px solid var(--line);color:var(--soft)}
+  table.tt tr:last-child td{border-bottom:0}
+  table.tt td.dest{font-weight:500;color:var(--ink)}
+  table.tt tr.far td{background:#FBF3EC}
+  table.tt tr.far td.dest{color:#9b6f43}
+  .ttnote{font-size:12px;color:var(--soft);margin:8px 2px 0;font-style:italic;font-family:'Cormorant Garamond',serif}
   @media(max-width:560px){#map{height:52vh}}
 </style>
 </head>
@@ -119,6 +131,7 @@
     <span><i class="dot" style="background:var(--ink);box-shadow:0 0 0 2px var(--gold)"></i> Munich</span>
     <span><i class="dot" style="background:var(--gold)"></i> Must-see sight</span>
     <span><i class="dot" style="background:#3B6EA5"></i> Eagle’s Nest · Salzburg leg</span>
+    <span><i class="dot" style="background:var(--peach);box-shadow:0 0 0 2px var(--gold)"></i> Your base · AMERON</span>
   </div>
 
   <div class="note">Oktoberfest runs through Oct 4 (Oct 3 is a national holiday), so Munich-area rooms spike. Pick one or two base towns below and day-trip to the sights — all within about 2 hours. Everything here sits south/southwest of Munich; the eastern sights (Berchtesgaden, Eagle’s Nest) are easy from your Salzburg stop right after. Prices are typical ranges, not live quotes — book early for the holiday weekend.</div>
@@ -134,6 +147,13 @@
     <div class="sumcol"><h4>Where to stay · Oct 1–4</h4><ul id="sumHotels"></ul></div>
     <div class="sumcol"><h4>Day-trip sights · within ~2 hrs</h4><ul id="sumSights"></ul></div>
   </div>
+
+  <h2>Travel Times from AMERON · Schwangau <span style="font-family:'Poppins';font-size:13px;color:var(--soft);font-weight:400">· your base</span></h2>
+  <div class="ttwrap"><table class="tt">
+    <thead><tr><th>Destination</th><th class="r">Distance</th><th class="r">Drive (approx)</th></tr></thead>
+    <tbody id="ttBody"></tbody>
+  </table></div>
+  <p class="ttnote">Approximate driving times by car. Shaded rows are beyond ~2 hours — better reached from Munich or your Salzburg stop than as a day trip from Füssen.</p>
 </div>
 
 <footer>Prepared for Mark &amp; Elena · Basel → Rome road trip · Bavaria leg, 1–4 Oct · Map data © OpenStreetMap contributors, © CARTO</footer>
@@ -149,7 +169,7 @@ const hotels=[
   gmap:"https://maps.google.com/?cid=2804467218752130639",
   desc:"Five-star Allgäu wellness resort south of Kempten: vast spa, Alpine views, fine dining.",
   photo:PH+"AJRVUZOdMu6drFxjHRzR_vvEjAvWSWBI46E85nXUmmN3iiAgYn7VCDbFoe1ptMu-Y74qm1ZyaHda5bV9mW7Z1jwhVTAspC2QMpldB6HGjtkGUj18Opihy1d4dKrylbtXtasVCidzqWySnwmPc5tcSfHg6zNoFQ=s1200-w800-h600"},
- {id:"ameron",tier:"upscale",name:"AMERON Neuschwanstein Alpsee Resort & Spa",town:"Schwangau",lat:47.5539323,lng:10.7376714,
+ {id:"ameron",tier:"upscale",base:true,name:"AMERON Neuschwanstein Alpsee Resort & Spa",town:"Schwangau",lat:47.5539323,lng:10.7376714,
   rating:4.6,count:"1,659",price:"~$250–450",badge:"Castle view",
   tel:"+49 8362 70300",web:"https://ameron-neuschwanstein.de",
   gmap:"https://maps.google.com/?cid=18068576934440495331",
@@ -254,8 +274,9 @@ function starStr(r){const f=Math.round(r);return '★★★★★'.slice(0,f)+'�
 
 const markers={};
 hotels.forEach(h=>{
-  const m=L.marker([h.lat,h.lng],{icon:pin(COLORS[h.tier])}).addTo(map);
-  m.bindPopup(`<div class="pop"><div class="pt">${h.town}</div><h3>${h.name}</h3>
+  const m=L.marker([h.lat,h.lng],{icon:pin(COLORS[h.tier],h.base)}).addTo(map);
+  const baseTag=h.base?`<div style="display:inline-block;background:var(--gold);color:#fff;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;padding:3px 8px;border-radius:999px;margin-bottom:4px">★ Your base</div><br>`:'';
+  m.bindPopup(`<div class="pop">${baseTag}<div class="pt">${h.town}</div><h3>${h.name}</h3>
     <div class="ps">${starStr(h.rating)} <small style="color:#6E675B">${h.rating} (${h.count})</small></div>
     <div class="pp">${h.price} <span style="font-weight:400;color:#6E675B">/ night</span></div>
     <a href="${h.gmap}" target="_blank">Google Maps ↗</a> &nbsp;·&nbsp;
@@ -268,8 +289,8 @@ ends.forEach(e=>{
   m.tier='end'; markers[e.id]=m;
 });
 
-// suggested route: Vaduz → AMERON → Bad Wörishofen → Munich
-const routePts=[[47.141,9.521],[47.5539,10.7377],[48.0019,10.5848],[48.137,11.575]];
+// suggested route: Vaduz → AMERON (base) → Munich (day trip / onward)
+const routePts=[[47.141,9.521],[47.5539,10.7377],[48.137,11.575]];
 const route=L.polyline(routePts,{color:'#5C6A4B',weight:3,opacity:.85,dashArray:'7,8'});
 route.addTo(map);
 
@@ -316,13 +337,14 @@ const cardsEl=document.getElementById('cards');
 function renderCards(){
   cardsEl.innerHTML='';
   hotels.filter(h=>active==='all'||h.tier===active).forEach(h=>{
-    const badgeColor=h.tier==='upscale'?'var(--peach)':'var(--sage)';
+    const badgeColor=h.base?'var(--gold)':(h.tier==='upscale'?'var(--peach)':'var(--sage)');
+    const badgeText=h.base?'★ Your base':h.badge;
     const dir=`https://www.google.com/maps/dir/?api=1&destination=${h.lat},${h.lng}`;
     const el=document.createElement('div');
-    el.className='hotel';
+    el.className='hotel'+(h.base?' isbase':'');
     el.innerHTML=`
       <div class="photo" style="background-image:url('${h.photo}')">
-        <span class="badge" style="background:${badgeColor}">${h.badge}</span>
+        <span class="badge" style="background:${badgeColor}">${badgeText}</span>
       </div>
       <div class="body">
         <div class="town">${h.town}</div>
@@ -378,6 +400,25 @@ sights.forEach(s=>{const li=document.createElement('li');
   const dist=s.area.includes('·')?s.area.split('·').pop().trim():s.area;
   li.innerHTML=`<span style="color:var(--ink);white-space:normal">${s.icon} ${s.name}</span><span>${dist}</span>`;
   sumS.appendChild(li);});
+
+// travel times from AMERON · Schwangau (at the castles)
+const baseTimes=[
+  {to:"Neuschwanstein & Hohenschwangau Castles",km:"1–2 km",t:"~5 min (walk/shuttle)"},
+  {to:"Füssen old town",km:"5 km",t:"~10 min"},
+  {to:"Wieskirche (rococo church)",km:"25 km",t:"~30 min"},
+  {to:"Oberammergau (painted village)",km:"45 km",t:"~50 min"},
+  {to:"Linderhof Palace",km:"50 km",t:"~55 min"},
+  {to:"Zugspitze (via Garmisch)",km:"60 km",t:"~1 h 00"},
+  {to:"Kloster Andechs (Lake Ammersee)",km:"95 km",t:"~1 h 25"},
+  {to:"Munich (city day trip)",km:"120 km",t:"~1 h 35"},
+  {to:"Vaduz (previous stop)",km:"140 km",t:"~1 h 50"},
+  {to:"Salzburg (next stop after Munich)",km:"190 km",t:"~2 h 20",far:true},
+  {to:"Eagle’s Nest / Berchtesgaden",km:"230 km",t:"~2 h 50",far:true},
+];
+const ttBody=document.getElementById('ttBody');
+baseTimes.forEach(r=>{const tr=document.createElement('tr');if(r.far)tr.className='far';
+  tr.innerHTML=`<td class="dest">${r.to}</td><td class="r">${r.km}</td><td class="r">${r.t}</td>`;
+  ttBody.appendChild(tr);});
 </script>
 </body>
 </html>
