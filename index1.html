@@ -145,7 +145,7 @@
   <h2>At a Glance</h2>
   <div class="summary">
     <div class="sumcol"><h4>Where to stay · Oct 1–4</h4><ul id="sumHotels"></ul></div>
-    <div class="sumcol"><h4>Day-trip sights · within ~2 hrs</h4><ul id="sumSights"></ul></div>
+    <div class="sumcol"><h4>Sights · drive from base</h4><ul id="sumSights"></ul></div>
   </div>
 
   <h2>Travel Times from AMERON · Schwangau <span style="font-family:'Poppins';font-size:13px;color:var(--soft);font-weight:400">· your base</span></h2>
@@ -153,7 +153,7 @@
     <thead><tr><th>Destination</th><th class="r">Distance</th><th class="r">Drive (approx)</th></tr></thead>
     <tbody id="ttBody"></tbody>
   </table></div>
-  <p class="ttnote">Approximate driving times by car. Shaded rows are beyond ~2 hours — better reached from Munich or your Salzburg stop than as a day trip from Füssen.</p>
+  <p class="ttnote">Approximate driving times by car. Shaded rows are beyond ~2 hours from your base — a long day, or better tackled on another leg (Salzburg for the Eagle’s Nest; a separate Romantic Road run for Rothenburg).</p>
 </div>
 
 <footer>Prepared for Mark &amp; Elena · Basel → Rome road trip · Bavaria leg, 1–4 Oct · Map data © OpenStreetMap contributors, © CARTO</footer>
@@ -228,6 +228,10 @@ const sights=[
   rating:4.6,count:"112,765",type:"Fairytale castle",icon:"🏰",
   pid:"ChIJXaNOxMr3nEcRo7ud02uGpsg",
   desc:"Ludwig II’s storybook castle (Hohenschwangau sits next door). 5 min from Hotel Sonne; beside the AMERON resort."},
+ {id:"fussen",name:"Füssen Old Town",area:"~10 min from AMERON",lat:47.5682795,lng:10.6997363,
+  rating:4.7,count:"501",type:"Riverside medieval town",icon:"🏘️",
+  pid:"ChIJD8T1egD1nEcR_UyFD1xpmcA",
+  desc:"Colorful cobblestone old town with the Hohes Schloss and the Lechfall waterfall — a cozy stop minutes from your base."},
  {id:"wieskirche",name:"Wieskirche",area:"Steingaden · ~30 min from Füssen",lat:47.6805535,lng:10.9004346,
   rating:4.7,count:"7,986",type:"UNESCO rococo church",icon:"⛪",
   pid:"ChIJy-Zq9QBRnEcRFvIdY-AP8Vg",
@@ -252,6 +256,10 @@ const sights=[
   rating:4.6,count:"19,220",type:"WWII-era mountaintop site",icon:"🦅",blue:true,
   pid:"ChIJhZGDoGnrdkcRq7AFut_XDu4",
   desc:"Mountaintop lodge at 1,834 m with panoramic Alpine views (bus + tunnel elevator). Best as a day trip from your Salzburg stop right after Munich — not the Vaduz→Munich drive."},
+ {id:"rothenburg",name:"Rothenburg ob der Tauber",area:"Romantic Road · ~2 h 45 north",lat:49.3771959,lng:10.1790077,
+  rating:4.8,count:"2,134",type:"Medieval walled town",icon:"🏰",far:true,
+  pid:"ChIJmQ4_QqaPmEcRX4i1XCl7Id4",
+  desc:"One of Germany’s best-preserved walled towns — but ~2 h 45 north of your base. A long day trip, or save it for a separate Romantic Road run."},
 ];
 const COLORS={upscale:getComputedStyle(document.documentElement).getPropertyValue('--peach').trim(),
               budget:getComputedStyle(document.documentElement).getPropertyValue('--sage').trim()};
@@ -305,8 +313,10 @@ sights.forEach(s=>{
   sightMarkers[s.id]=m;
 });
 
-const allLatLng=[...hotels,...ends,...sights].map(h=>[h.lat,h.lng]);
-map.fitBounds(allLatLng,{padding:[50,50]});
+// frame the default view on the within-~2hr corridor only;
+// far markers (Rothenburg, Eagle's Nest) stay on the map but don't widen the view
+const nearPts=[...hotels,...ends,...sights.filter(s=>!s.far && !s.blue)].map(h=>[h.lat,h.lng]);
+map.fitBounds(nearPts,{padding:[50,50]});
 
 // filter
 let active='all';
@@ -414,6 +424,7 @@ const baseTimes=[
   {to:"Vaduz (previous stop)",km:"140 km",t:"~1 h 50"},
   {to:"Salzburg (next stop after Munich)",km:"190 km",t:"~2 h 20",far:true},
   {to:"Eagle’s Nest / Berchtesgaden",km:"230 km",t:"~2 h 50",far:true},
+  {to:"Rothenburg ob der Tauber (north)",km:"205 km",t:"~2 h 45",far:true},
 ];
 const ttBody=document.getElementById('ttBody');
 baseTimes.forEach(r=>{const tr=document.createElement('tr');if(r.far)tr.className='far';
