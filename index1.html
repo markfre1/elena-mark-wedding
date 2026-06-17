@@ -73,6 +73,13 @@
     border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35)}
   .pin::after{content:'';position:absolute;width:8px;height:8px;border-radius:50%;background:#fff;top:6px;left:6px}
   .pin.ring{box-shadow:0 0 0 2.5px var(--gold),0 2px 6px rgba(0,0,0,.35)}
+  .leaflet-tooltip.lbl{background:rgba(255,255,255,.9);border:0;border-radius:6px;
+    box-shadow:0 1px 4px rgba(80,70,50,.28);color:var(--ink);font-family:'Poppins',sans-serif;
+    font-size:11px;font-weight:500;padding:2px 7px;white-space:nowrap}
+  .leaflet-tooltip.lbl::before{display:none}
+  .leaflet-tooltip.lbl.city{color:var(--saged);font-weight:600}
+  .leaflet-tooltip.lbl.sight{color:#8a6d2f}
+  .leaflet-tooltip.lbl.blue{color:#3B6EA5}
   .pin-star{width:30px;height:30px;border-radius:50%;background:var(--gold);border:3px solid #fff;
     box-shadow:0 0 0 4px rgba(184,155,94,.30),0 3px 9px rgba(0,0,0,.40);
     display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;line-height:1}
@@ -289,11 +296,13 @@ hotels.forEach(h=>{
     <div class="pp">${h.price} <span style="font-weight:400;color:#6E675B">/ night</span></div>
     <a href="${h.gmap}" target="_blank">Google Maps ↗</a> &nbsp;·&nbsp;
     <a href="${h.web}" target="_blank">Website ↗</a></div>`);
+  m.bindTooltip(h.town,{permanent:true,direction:'right',offset:[10,-13],className:'lbl city'});
   m.tier=h.tier; markers[h.id]=m;
 });
 ends.forEach(e=>{
   const m=L.marker([e.lat,e.lng],{icon:pin(e.color,e.ring)}).addTo(map);
   m.bindPopup(`<div class="pop"><div class="pt">${e.town}</div><h3>${e.name}</h3></div>`);
+  m.bindTooltip(e.name,{permanent:true,direction:'right',offset:[10,-13],className:'lbl city'});
   m.tier='end'; markers[e.id]=m;
 });
 
@@ -310,6 +319,7 @@ sights.forEach(s=>{
   m.bindPopup(`<div class="pop"><div class="pt">${s.area}</div><h3>${s.icon} ${s.name}</h3>
     <div class="pp" style="font-weight:500;color:#5C6A4B">${s.type}</div>${rt}
     <a href="${GMAP(s.lat,s.lng,s.pid)}" target="_blank">Google Maps ↗</a></div>`);
+  m.bindTooltip(s.name,{permanent:true,direction:'top',offset:[0,-13],className:'lbl '+(s.blue?'blue':'sight')});
   sightMarkers[s.id]=m;
 });
 
