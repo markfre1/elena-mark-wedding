@@ -72,15 +72,29 @@
     border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35)}
   .pin::after{content:'';position:absolute;width:8px;height:8px;border-radius:50%;background:#fff;top:6px;left:6px}
   .pin.ring{box-shadow:0 0 0 2.5px var(--gold),0 2px 6px rgba(0,0,0,.35)}
+  .pin-star{width:30px;height:30px;border-radius:50%;background:var(--gold);border:3px solid #fff;
+    box-shadow:0 0 0 4px rgba(184,155,94,.30),0 3px 9px rgba(0,0,0,.40);
+    display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;line-height:1}
+  .sight .banner{height:78px;display:flex;align-items:center;justify-content:center;font-size:34px;
+    background:linear-gradient(135deg,var(--gold),var(--sage));color:#fff;position:relative}
+  .sight .banner .t{position:absolute;bottom:7px;right:11px;font-size:10px;letter-spacing:.12em;
+    text-transform:uppercase;font-weight:600;opacity:.95}
   footer{max-width:1180px;margin:0 auto;padding:18px 22px 40px;color:#A89F8E;font-size:12px}
+  .summary{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:14px}
+  .sumcol h4{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;margin:0 0 6px;color:var(--saged)}
+  .sumcol ul{list-style:none;margin:0;padding:0}
+  .sumcol li{padding:8px 2px;border-bottom:1px solid var(--line);font-size:13.5px;
+    display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+  .sumcol li span{color:var(--soft);white-space:nowrap;font-size:12.5px}
+  @media(max-width:560px){.summary{grid-template-columns:1fr;gap:8px}}
   @media(max-width:560px){#map{height:52vh}}
 </style>
 </head>
 <body>
 <header>
-  <div class="eyebrow">European Road Trip · 1–4 October · Bavaria Leg</div>
-  <h1>Bavaria Spa Hotels</h1>
-  <p class="sub">Beautiful places to stay between Vaduz and Munich — clear of the Oktoberfest crush</p>
+  <div class="eyebrow">Munich Alternative · Oct 1–4 · Vaduz → Munich</div>
+  <h1>Bavaria Base Towns &amp; Day Trips</h1>
+  <p class="sub">Stay between Vaduz and Munich, with the best sights all within ~2 hours — skipping the Oktoberfest crush</p>
 </header>
 
 <div class="wrap">
@@ -91,6 +105,7 @@
       <button data-f="budget">Under $700</button>
     </div>
     <label class="toggle"><input type="checkbox" id="routeToggle" checked> Suggested route</label>
+    <label class="toggle" style="margin-left:14px"><input type="checkbox" id="sightToggle" checked> Sights</label>
   </div>
 
   <div id="map"></div>
@@ -100,12 +115,22 @@
     <span><i class="dot" style="background:var(--sage)"></i> Under $700</span>
     <span><i class="dot" style="background:var(--lav)"></i> Start · Vaduz</span>
     <span><i class="dot" style="background:var(--ink);box-shadow:0 0 0 2px var(--gold)"></i> Munich</span>
+    <span><i class="dot" style="background:var(--gold)"></i> Must-see sight</span>
   </div>
 
-  <div class="note">Oktoberfest runs through Oct 4 (Oct 3 is a national holiday), so Munich-area rooms spike. These towns sit far enough out to stay affordable while keeping Munich within day-trip reach. Prices are typical ranges, not live quotes — book early for the holiday weekend.</div>
+  <div class="note">Oktoberfest runs through Oct 4 (Oct 3 is a national holiday), so Munich-area rooms spike. Pick one or two base towns below and day-trip to the sights — all within about 2 hours. Everything here sits south/southwest of Munich; the eastern sights (Berchtesgaden, Eagle’s Nest) are easy from your Salzburg stop right after. Prices are typical ranges, not live quotes — book early for the holiday weekend.</div>
 
   <h2>The Hotels</h2>
   <div class="grid" id="cards"></div>
+
+  <h2>Must-see Sights</h2>
+  <div class="grid" id="sights"></div>
+
+  <h2>At a Glance</h2>
+  <div class="summary">
+    <div class="sumcol"><h4>Where to stay · Oct 1–4</h4><ul id="sumHotels"></ul></div>
+    <div class="sumcol"><h4>Day-trip sights · within ~2 hrs</h4><ul id="sumSights"></ul></div>
+  </div>
 </div>
 
 <footer>Prepared for Mark &amp; Elena · Basel → Rome road trip · Bavaria leg, 1–4 Oct · Map data © OpenStreetMap contributors, © CARTO</footer>
@@ -174,6 +199,33 @@ const ends=[
  {id:"vaduz",name:"Vaduz",town:"Start · Liechtenstein",lat:47.141,lng:9.521,color:"var(--lav)"},
  {id:"munich",name:"München",town:"Destination · Oktoberfest",lat:48.137,lng:11.575,color:"var(--ink)",ring:true},
 ];
+const GMAP=(lat,lng,pid)=>`https://www.google.com/maps/search/?api=1&query=${lat},${lng}&query_place_id=${pid}`;
+const sights=[
+ {id:"neuschwanstein",name:"Neuschwanstein Castle",area:"Schwangau · by Füssen",lat:47.557574,lng:10.7498004,
+  rating:4.6,count:"112,765",type:"Fairytale castle",icon:"🏰",
+  pid:"ChIJXaNOxMr3nEcRo7ud02uGpsg",
+  desc:"Ludwig II’s storybook castle (Hohenschwangau sits next door). 5 min from Hotel Sonne; beside the AMERON resort."},
+ {id:"wieskirche",name:"Wieskirche",area:"Steingaden · ~30 min from Füssen",lat:47.6805535,lng:10.9004346,
+  rating:4.7,count:"7,986",type:"UNESCO rococo church",icon:"⛪",
+  pid:"ChIJy-Zq9QBRnEcRFvIdY-AP8Vg",
+  desc:"A dazzling rococo pilgrimage church standing alone in alpine meadows. Free entry; a quick, magical stop."},
+ {id:"linderhof",name:"Linderhof Palace",area:"Ettal · ~45 min from Garmisch",lat:47.5716123,lng:10.9608242,
+  rating:4.7,count:"22,032",type:"Ludwig II palace",icon:"🏯",
+  pid:"ChIJK6r_2Z1VnEcRnBXBq-4dxaA",
+  desc:"The most ornate of Ludwig II’s palaces, modeled on Versailles, with a famous mirror hall, grotto and gardens."},
+ {id:"oberammergau",name:"Oberammergau",area:"~40 min from Füssen",lat:47.598659,lng:11.0620949,
+  rating:4.4,count:"170",type:"Painted alpine village",icon:"🎨",
+  pid:"ChIJ2_tfPg-rnUcR4CPo-iMLEps",
+  desc:"Storybook village famous for Lüftlmalerei fresco facades and woodcarving, ringed by Alpine peaks."},
+ {id:"zugspitze",name:"Zugspitze",area:"Garmisch · ~1 hr from Füssen",lat:47.4133491,lng:10.9798841,
+  rating:4.8,count:"6,698",type:"Germany’s highest peak · 2,962 m",icon:"🏔️",
+  pid:"ChIJv8gxDsICnUcReUIrUVs9Q4s",
+  desc:"Cogwheel train or cable car to a 2,962 m summit with panoramic views across four countries."},
+ {id:"andechs",name:"Kloster Andechs",area:"Ammersee · ~40 min from Munich",lat:47.9744764,lng:11.1828171,
+  rating:4.5,count:"14,764",type:"Hilltop abbey & beer garden",icon:"🍺",
+  pid:"ChIJ5fKJEyfNnUcRrPGKUHpA6tI",
+  desc:"Baroque pilgrimage abbey above Lake Ammersee, famous for its monastery beer and sweeping country views."},
+];
 const COLORS={upscale:getComputedStyle(document.documentElement).getPropertyValue('--peach').trim(),
               budget:getComputedStyle(document.documentElement).getPropertyValue('--sage').trim()};
 
@@ -186,6 +238,10 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r
 function pin(color,ring){
   return L.divIcon({className:'',iconSize:[26,36],iconAnchor:[13,33],popupAnchor:[0,-30],
     html:`<div class="pin ${ring?'ring':''}" style="--c:${color}"></div>`});
+}
+function starIcon(){
+  return L.divIcon({className:'',iconSize:[30,30],iconAnchor:[15,15],popupAnchor:[0,-16],
+    html:`<div class="pin-star">★</div>`});
 }
 function starStr(r){const f=Math.round(r);return '★★★★★'.slice(0,f)+'☆☆☆☆☆'.slice(0,5-f);}
 
@@ -210,7 +266,18 @@ const routePts=[[47.141,9.521],[47.5539,10.7377],[48.0019,10.5848],[48.137,11.57
 const route=L.polyline(routePts,{color:'#5C6A4B',weight:3,opacity:.85,dashArray:'7,8'});
 route.addTo(map);
 
-const allLatLng=[...hotels,...ends].map(h=>[h.lat,h.lng]);
+// landmark sights (gold star pins)
+const sightMarkers={};
+sights.forEach(s=>{
+  const m=L.marker([s.lat,s.lng],{icon:starIcon()}).addTo(map);
+  const rt=s.rating?`<div class="ps">${starStr(s.rating)} <small style="color:#6E675B">${s.rating} (${s.count})</small></div>`:'';
+  m.bindPopup(`<div class="pop"><div class="pt">${s.area}</div><h3>${s.icon} ${s.name}</h3>
+    <div class="pp" style="font-weight:500;color:#5C6A4B">${s.type}</div>${rt}
+    <a href="${GMAP(s.lat,s.lng,s.pid)}" target="_blank">Google Maps ↗</a></div>`);
+  sightMarkers[s.id]=m;
+});
+
+const allLatLng=[...hotels,...ends,...sights].map(h=>[h.lat,h.lng]);
 map.fitBounds(allLatLng,{padding:[50,50]});
 
 // filter
@@ -232,6 +299,9 @@ function applyFilter(){
 }
 document.getElementById('routeToggle').onchange=e=>{
   if(e.target.checked)route.addTo(map);else map.removeLayer(route);
+};
+document.getElementById('sightToggle').onchange=e=>{
+  Object.values(sightMarkers).forEach(m=>{ if(e.target.checked)m.addTo(map); else map.removeLayer(m); });
 };
 
 // cards
@@ -266,6 +336,41 @@ function renderCards(){
   });
 }
 renderCards();
+
+// sight cards
+const sightsEl=document.getElementById('sights');
+sights.forEach(s=>{
+  const rt=s.rating?`<div class="stars">${starStr(s.rating)}<small>${s.rating} (${s.count})</small></div>`:'';
+  const el=document.createElement('div');
+  el.className='hotel sight';
+  el.innerHTML=`
+    <div class="banner">${s.icon}<span class="t">${s.type}</span></div>
+    <div class="body">
+      <div class="town">${s.area}</div>
+      <h3 class="hname">${s.name}</h3>
+      ${rt}
+      <div class="desc">${s.desc}</div>
+      <div class="links">
+        <a class="primary" href="${GMAP(s.lat,s.lng,s.pid)}" target="_blank" onclick="event.stopPropagation()">Google Maps</a>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}" target="_blank" onclick="event.stopPropagation()">Directions</a>
+      </div>
+    </div>`;
+  el.onclick=()=>{const m=sightMarkers[s.id];map.flyTo([s.lat,s.lng],11,{duration:.8});
+    setTimeout(()=>m.openPopup(),700);
+    window.scrollTo({top:document.getElementById('map').offsetTop-10,behavior:'smooth'});};
+  sightsEl.appendChild(el);
+});
+
+// at-a-glance summary
+const sumH=document.getElementById('sumHotels');
+hotels.forEach(h=>{const li=document.createElement('li');
+  li.innerHTML=`<span style="color:var(--ink);white-space:normal">${h.name} &nbsp;<em style="color:var(--saged);font-style:normal">· ${h.town}</em></span><span>${h.price}</span>`;
+  sumH.appendChild(li);});
+const sumS=document.getElementById('sumSights');
+sights.forEach(s=>{const li=document.createElement('li');
+  const dist=s.area.includes('·')?s.area.split('·').pop().trim():s.area;
+  li.innerHTML=`<span style="color:var(--ink);white-space:normal">${s.icon} ${s.name}</span><span>${dist}</span>`;
+  sumS.appendChild(li);});
 </script>
 </body>
 </html>
