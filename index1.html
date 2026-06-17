@@ -3,273 +3,97 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Bavaria Spa Hotels · Vaduz → Munich</title>
+<title>Bavaria Highlights · Places to Visit</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 <style>
-  :root{
-    --cream:#F6F1E7; --card:#FBF8F1; --ink:#3B362E; --soft:#6E675B;
-    --sage:#7E8E6B; --saged:#5C6A4B; --lav:#9A8FA8; --peach:#D6876F;
-    --blush:#E9C7B6; --gold:#B89B5E; --line:#E2DBCB;
-  }
+  :root{--cream:#F6F1E7;--card:#FBF8F1;--ink:#3B362E;--soft:#6E675B;--sage:#7E8E6B;
+    --saged:#5C6A4B;--gold:#B89B5E;--line:#E2DBCB;}
   *{box-sizing:border-box}
   html,body{margin:0;padding:0;background:var(--cream);color:var(--ink);
     font-family:'Poppins',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
-  a{color:var(--saged);text-decoration:none}
-  a:hover{text-decoration:underline}
-  header{padding:26px 22px 14px;max-width:1180px;margin:0 auto}
+  a{color:var(--saged);text-decoration:none}a:hover{text-decoration:underline}
+  header{padding:26px 22px 10px;max-width:1100px;margin:0 auto}
   .eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600}
-  h1{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(30px,5vw,46px);
-    margin:.12em 0 .04em;line-height:1.04}
+  h1{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(30px,5vw,46px);margin:.12em 0 .04em;line-height:1.04}
   .sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(15px,2.4vw,20px);color:var(--soft);margin:0}
-  .wrap{max-width:1180px;margin:0 auto;padding:0 22px 40px}
-  .controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0 12px}
-  .seg{display:inline-flex;background:#EFE9DB;border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px}
-  .seg button{border:0;background:transparent;font:inherit;font-size:13px;font-weight:500;color:var(--soft);
-    padding:7px 15px;border-radius:999px;cursor:pointer;transition:.15s}
-  .seg button.active{background:var(--ink);color:#fff}
-  .toggle{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--soft);cursor:pointer;
-    margin-left:auto;user-select:none}
-  .toggle input{accent-color:var(--saged);width:15px;height:15px}
-  #map{height:60vh;min-height:420px;width:100%;border-radius:16px;border:1px solid var(--line);
+  .wrap{max-width:1100px;margin:0 auto;padding:14px 22px 44px}
+  #map{height:62vh;min-height:440px;width:100%;border-radius:16px;border:1px solid var(--line);
     box-shadow:0 6px 24px rgba(80,70,50,.10);overflow:hidden;z-index:1}
-  .legend{display:flex;flex-wrap:wrap;gap:16px;margin:14px 2px 4px;font-size:12.5px;color:var(--soft)}
-  .legend span{display:inline-flex;align-items:center;gap:7px}
-  .dot{width:12px;height:12px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.25)}
-  .note{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--soft);
-    background:#F3E7DE;border-radius:12px;padding:12px 16px;margin:16px 0 6px}
+  .note{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--soft);margin:14px 2px 0}
   h2{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:28px;margin:26px 0 4px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;margin-top:14px}
-  .hotel{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
-    display:flex;flex-direction:column;transition:.18s;cursor:pointer}
-  .hotel:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(80,70,50,.14)}
-  .hotel.isbase{border:2px solid var(--gold);box-shadow:0 6px 20px rgba(184,155,94,.22)}
-  .hotel .photo{height:150px;background:#E7E1D2 center/cover no-repeat;position:relative}
-  .badge{position:absolute;top:10px;left:10px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;
-    font-weight:600;color:#fff;padding:4px 9px;border-radius:999px;backdrop-filter:blur(2px)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+    display:flex;flex-direction:column;cursor:pointer;transition:.18s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(80,70,50,.14)}
+  .banner{height:80px;display:flex;align-items:center;justify-content:center;font-size:34px;color:#fff;
+    background:linear-gradient(135deg,var(--gold),var(--sage));position:relative}
+  .banner .t{position:absolute;bottom:7px;right:11px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;opacity:.95}
   .body{padding:13px 15px 15px;display:flex;flex-direction:column;gap:3px;flex:1}
-  .town{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--saged);font-weight:600}
-  .hname{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;line-height:1.05;margin:0}
+  .region{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--saged);font-weight:600}
+  .name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;line-height:1.05;margin:0}
   .stars{color:var(--gold);font-size:13px;letter-spacing:1px}
   .stars small{color:var(--soft);font-family:'Poppins';letter-spacing:0;margin-left:5px}
-  .price{font-weight:600;font-size:17px;margin:2px 0}
-  .price span{font-weight:400;font-size:12px;color:var(--soft);letter-spacing:.04em}
-  .desc{font-size:13px;color:var(--soft);line-height:1.45;margin:2px 0 8px}
+  .desc{font-size:13px;color:var(--soft);line-height:1.45;margin:4px 0 9px}
   .links{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;font-size:12.5px}
-  .links a{display:inline-flex;align-items:center;gap:5px;padding:6px 11px;border:1px solid var(--line);
-    border-radius:999px;background:#fff;font-weight:500}
+  .links a{display:inline-flex;gap:5px;padding:6px 11px;border:1px solid var(--line);border-radius:999px;background:#fff;font-weight:500}
   .links a.primary{background:var(--saged);color:#fff;border-color:var(--saged)}
   .leaflet-popup-content-wrapper{border-radius:12px}
   .leaflet-popup-content{margin:12px 14px;font-family:'Poppins',sans-serif}
   .pop h3{font-family:'Cormorant Garamond',serif;font-size:19px;margin:0 0 2px;color:var(--ink)}
   .pop .pt{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--saged);font-weight:600}
-  .pop .pp{font-weight:600;margin:5px 0 2px}
-  .pop .ps{color:var(--gold);font-size:13px}
-  .pop a{font-weight:500}
-  .pin{width:24px;height:24px;border-radius:50% 50% 50% 0;background:var(--c);transform:rotate(-45deg);
-    border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35)}
-  .pin::after{content:'';position:absolute;width:8px;height:8px;border-radius:50%;background:#fff;top:6px;left:6px}
-  .pin.ring{box-shadow:0 0 0 2.5px var(--gold),0 2px 6px rgba(0,0,0,.35)}
-  .leaflet-tooltip.lbl{background:rgba(255,255,255,.9);border:0;border-radius:6px;
-    box-shadow:0 1px 4px rgba(80,70,50,.28);color:var(--ink);font-family:'Poppins',sans-serif;
-    font-size:11px;font-weight:500;padding:2px 7px;white-space:nowrap}
-  .leaflet-tooltip.lbl::before{display:none}
-  .leaflet-tooltip.lbl.city{color:var(--saged);font-weight:600}
-  .leaflet-tooltip.lbl.sight{color:#8a6d2f}
-  .leaflet-tooltip.lbl.blue{color:#3B6EA5}
+  .pop .ps{color:var(--gold);font-size:13px;margin-top:3px}
   .pin-star{width:30px;height:30px;border-radius:50%;background:var(--gold);border:3px solid #fff;
     box-shadow:0 0 0 4px rgba(184,155,94,.30),0 3px 9px rgba(0,0,0,.40);
-    display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;line-height:1}
-  .pin-star.blue{background:#3B6EA5;box-shadow:0 0 0 4px rgba(59,110,165,.32),0 3px 9px rgba(0,0,0,.40)}
-  .sight.blue .banner{background:linear-gradient(135deg,#3B6EA5,#5C7E9E)}
-  .sight .banner{height:78px;display:flex;align-items:center;justify-content:center;font-size:34px;
-    background:linear-gradient(135deg,var(--gold),var(--sage));color:#fff;position:relative}
-  .sight .banner .t{position:absolute;bottom:7px;right:11px;font-size:10px;letter-spacing:.12em;
-    text-transform:uppercase;font-weight:600;opacity:.95}
-  footer{max-width:1180px;margin:0 auto;padding:18px 22px 40px;color:#A89F8E;font-size:12px}
-  .summary{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:14px}
-  .sumcol h4{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;margin:0 0 6px;color:var(--saged)}
-  .sumcol ul{list-style:none;margin:0;padding:0}
-  .sumcol li{padding:8px 2px;border-bottom:1px solid var(--line);font-size:13.5px;
-    display:flex;justify-content:space-between;gap:14px;align-items:baseline}
-  .sumcol li span{color:var(--soft);white-space:nowrap;font-size:12.5px}
-  @media(max-width:560px){.summary{grid-template-columns:1fr;gap:8px}}
-  .ttwrap{overflow-x:auto;margin-top:12px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
-  table.tt{width:100%;border-collapse:collapse;font-size:13.5px}
-  table.tt th{text-align:left;font-weight:600;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
-    color:var(--saged);padding:11px 14px;border-bottom:2px solid var(--line)}
-  table.tt th.r,table.tt td.r{text-align:right;white-space:nowrap}
-  table.tt td{padding:10px 14px;border-bottom:1px solid var(--line);color:var(--soft)}
-  table.tt tr:last-child td{border-bottom:0}
-  table.tt td.dest{font-weight:500;color:var(--ink)}
-  table.tt tr.far td{background:#FBF3EC}
-  table.tt tr.far td.dest{color:#9b6f43}
-  .ttnote{font-size:12px;color:var(--soft);margin:8px 2px 0;font-style:italic;font-family:'Cormorant Garamond',serif}
-  @media(max-width:560px){#map{height:52vh}}
+    display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px}
+  .leaflet-tooltip.lbl{background:rgba(255,255,255,.9);border:0;border-radius:6px;
+    box-shadow:0 1px 4px rgba(80,70,50,.28);color:#8a6d2f;font-family:'Poppins',sans-serif;
+    font-size:11.5px;font-weight:600;padding:2px 7px;white-space:nowrap}
+  .leaflet-tooltip.lbl::before{display:none}
+  footer{max-width:1100px;margin:0 auto;padding:10px 22px 40px;color:#A89F8E;font-size:12px}
 </style>
 </head>
 <body>
 <header>
-  <div class="eyebrow">Munich Alternative · Oct 1–4 · Vaduz → Munich</div>
-  <h1>Bavaria Base Towns &amp; Day Trips</h1>
-  <p class="sub">Stay between Vaduz and Munich, with the best sights all within ~2 hours — skipping the Oktoberfest crush</p>
+  <div class="eyebrow">Bavaria · Places to Visit</div>
+  <h1>Bavaria Highlights</h1>
+  <p class="sub">The five places we want to see</p>
 </header>
-
 <div class="wrap">
-  <div class="controls">
-    <div class="seg" id="filter">
-      <button data-f="all" class="active">All</button>
-      <button data-f="upscale">Upscale spa</button>
-      <button data-f="budget">Under $700</button>
-    </div>
-    <label class="toggle"><input type="checkbox" id="routeToggle" checked> Suggested route</label>
-    <label class="toggle" style="margin-left:14px"><input type="checkbox" id="sightToggle" checked> Sights</label>
-  </div>
-
   <div id="map"></div>
-
-  <div class="legend">
-    <span><i class="dot" style="background:var(--peach)"></i> Upscale spa hotel</span>
-    <span><i class="dot" style="background:var(--sage)"></i> Under $700</span>
-    <span><i class="dot" style="background:var(--lav)"></i> Start · Vaduz</span>
-    <span><i class="dot" style="background:var(--ink);box-shadow:0 0 0 2px var(--gold)"></i> Munich</span>
-    <span><i class="dot" style="background:var(--gold)"></i> Must-see sight</span>
-    <span><i class="dot" style="background:#3B6EA5"></i> Eagle’s Nest · Salzburg leg</span>
-    <span><i class="dot" style="background:var(--peach);box-shadow:0 0 0 2px var(--gold)"></i> Your base · AMERON</span>
-  </div>
-
-  <div class="note">Oktoberfest runs through Oct 4 (Oct 3 is a national holiday), so Munich-area rooms spike. Pick one or two base towns below and day-trip to the sights — all within about 2 hours. Everything here sits south/southwest of Munich; the eastern sights (Berchtesgaden, Eagle’s Nest) are easy from your Salzburg stop right after. Prices are typical ranges, not live quotes — book early for the holiday weekend.</div>
-
-  <h2>The Hotels</h2>
+  <p class="note">Tap any pin or card for details and a Google Maps link. These five span Bavaria — Neuschwanstein &amp; Füssen in the south, Berchtesgaden in the southeast, and Rothenburg &amp; Bamberg up north.</p>
+  <h2>The Five</h2>
   <div class="grid" id="cards"></div>
-
-  <h2>Must-see Sights</h2>
-  <div class="grid" id="sights"></div>
-
-  <h2>At a Glance</h2>
-  <div class="summary">
-    <div class="sumcol"><h4>Where to stay · Oct 1–4</h4><ul id="sumHotels"></ul></div>
-    <div class="sumcol"><h4>Sights · drive from base</h4><ul id="sumSights"></ul></div>
-  </div>
-
-  <h2>Travel Times from AMERON · Schwangau <span style="font-family:'Poppins';font-size:13px;color:var(--soft);font-weight:400">· your base</span></h2>
-  <div class="ttwrap"><table class="tt">
-    <thead><tr><th>Destination</th><th class="r">Distance</th><th class="r">Drive (approx)</th></tr></thead>
-    <tbody id="ttBody"></tbody>
-  </table></div>
-  <p class="ttnote">Approximate driving times by car. Shaded rows are beyond ~2 hours from your base — a long day, or better tackled on another leg (Salzburg for the Eagle’s Nest; a separate Romantic Road run for Rothenburg).</p>
 </div>
-
-<footer>Prepared for Mark &amp; Elena · Basel → Rome road trip · Bavaria leg, 1–4 Oct · Map data © OpenStreetMap contributors, © CARTO</footer>
+<footer>Prepared for Mark &amp; Elena · Bavaria · Map data © OpenStreetMap contributors, © CARTO</footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
   integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
-const PH="https://lh3.googleusercontent.com/place-photos/";
-const hotels=[
- {id:"sonnenalp",tier:"upscale",name:"Sonnenalp Resort",town:"Ofterschwang",lat:47.4904188,lng:10.256823,
-  rating:4.8,count:"1,026",price:"~$350–600",badge:"Top spa",
-  tel:"+49 8321 2720",web:"https://www.sonnenalp.de",
-  gmap:"https://maps.google.com/?cid=2804467218752130639",
-  desc:"Five-star Allgäu wellness resort south of Kempten: vast spa, Alpine views, fine dining.",
-  photo:PH+"AJRVUZOdMu6drFxjHRzR_vvEjAvWSWBI46E85nXUmmN3iiAgYn7VCDbFoe1ptMu-Y74qm1ZyaHda5bV9mW7Z1jwhVTAspC2QMpldB6HGjtkGUj18Opihy1d4dKrylbtXtasVCidzqWySnwmPc5tcSfHg6zNoFQ=s1200-w800-h600"},
- {id:"ameron",tier:"upscale",base:true,name:"AMERON Neuschwanstein Alpsee Resort & Spa",town:"Schwangau",lat:47.5539323,lng:10.7376714,
-  rating:4.6,count:"1,659",price:"~$250–450",badge:"Castle view",
-  tel:"+49 8362 70300",web:"https://ameron-neuschwanstein.de",
-  gmap:"https://maps.google.com/?cid=18068576934440495331",
-  desc:"Polished modern resort set between Neuschwanstein & Hohenschwangau, with spa and Alpsee views.",
-  photo:PH+"AJRVUZNEz0fQjIkrJDzS4JIbQnf2VlBIRRmgRW-_cRpzkiylPcnHaqPgXEj3TU100QgKWH20DucX7vt7t-QyDVJVHBxbpz5dRLzZibZQt17s9GGOAy2U8fg-fjhb-X5I3YLYn8Pawl69kuU36gfWb9s=s1200-w800-h600"},
- {id:"sonnenhof",tier:"upscale",name:"Hotel Der Sonnenhof",town:"Bad Wörishofen",lat:48.001862,lng:10.5847511,
-  rating:4.6,count:"990",price:"~$200–350",badge:"Best value",
-  tel:"+49 8247 9590",web:"https://www.spahotel-sonnenhof.de",
-  gmap:"https://maps.google.com/?cid=8922736171532949807",
-  desc:"Upscale end of the Kneipp spa town: several pools, saunas, three restaurants. Likely under $700.",
-  photo:PH+"AJRVUZPa6gU9WzqLromx6W_igLsXk53fyEQ08t3wZ5Ap3R7c0UkX45Be4qe2p40MlfuabpdNoU5L5HIVs9nhzCENQEzqOhAuhT-sMBg4ekq-XQQypL0iRmlN55AY2U9iDsCg7qsuhHuRAyJmuSu0sA=s1200-w800-h600"},
- {id:"elmau",tier:"upscale",name:"Schloss Elmau",town:"Krün",lat:47.4620556,lng:11.1864856,
-  rating:4.8,count:"1,347",price:"~$800–1,500+",badge:"Splurge",
-  tel:"+49 8823 180",web:"https://www.schloss-elmau.de",
-  gmap:"https://maps.google.com/?cid=2120150947621729831",
-  desc:"World-class mountain spa retreat (G7 host) east of Garmisch. Above $700 — a single showpiece night.",
-  photo:PH+"AJRVUZNcbkppRhXapsRqdgH7WNd9gZSWCUATOHyYcdvlOJ7225B-4mqUKh3dW7uKRmuot_hi5XwMTjq1r9zIApUvw7NA-6UIAXCo18D1fJ612Vb0tCrdSs3GyhcxlDA0l1BG754D6f7QamWM3bgmvjM=s1200-w800-h600"},
- {id:"sonne",tier:"budget",name:"Hotel Sonne",town:"Füssen",lat:47.5695471,lng:10.6999611,
-  rating:4.6,count:"2,198",price:"~$160–300",badge:"Castle base",
-  tel:"+49 8362 9080",web:"https://www.hotel-fuessen.de",
-  gmap:"https://maps.google.com/?cid=1577396230269856258",
-  desc:"4-star boutique with spa & sauna at the foot of Neuschwanstein. Scenic, away from the Wiesn.",
-  photo:PH+"AJRVUZOVBtORigom4XNIKlOupFd6x1c8UOTZkMuI9apo4gZOjGUMkSbBiKnTyDIgK8ydzaztWxQvB4UNU77Jkc_ez0dmganlL1BpL3tGIJRvq1W3elBxiTmKh4lnqeYswvT9uC-HMiYPTMzSWE4gqXk=s1200-w800-h600"},
- {id:"adler",tier:"budget",name:"Hotel-Gasthof Adler",town:"Bad Wörishofen",lat:48.0033333,lng:10.5930556,
-  rating:4.8,count:"2,113",price:"~$140–220",badge:"Best value",
-  tel:"+49 8247 96360",web:"https://www.adler-bw.de",
-  gmap:"https://maps.google.com/?cid=5417217758609187806",
-  desc:"4.8★ traditional spa-town hotel with a wellness area. Excellent value; gentle pools & water cures.",
-  photo:PH+"AJRVUZOlWXnqrES8wChGeH7ZZBks5fI4xyRS8xP2cfowVjmzi7x72oiGchhP3lMEe9YuVGWkLX83xyDZAyGCrXWj-Z9DZ_wbLXS-ACNcbR-pD2nktyRLLMB3lATWdy1mzX94ZVsp9u1aHFxW4wuI1A=s1200-w800-h600"},
- {id:"kempten",tier:"budget",name:"CityHotel Kempten",town:"Kempten",lat:47.7216397,lng:10.31616,
-  rating:4.6,count:"435",price:"~$100–160",badge:"Safest bet",
-  tel:"+49 831 521870",web:"https://www.cityhotel-kempten.de",
-  gmap:"https://maps.google.com/?cid=14859237545331400603",
-  desc:"Allgäu’s central hub. The safest budget pick, with a standout breakfast.",
-  photo:PH+"AJRVUZMK-QmtSzUV7IZqilpeEiFT2NVo0S9H4MzvAJIXjW2IYHymotw78HnzbMt9Eqaa5a4w3KadYeXdiW9pRSrG4iChRXm2XhL6XMS85hrZVe4MclZAoOEEX5mpnu0sQ9p3ZynolNVdfXoiXwHyzA=s1200-w800-h600"},
- {id:"schranne",tier:"budget",name:"Hotel Am Schrannenplatz",town:"Memmingen",lat:47.9827729,lng:10.182103,
-  rating:4.6,count:"223",price:"~$120–180",badge:"Old town",
-  tel:"+49 8331 12276",web:"https://hotel-am-schrannenplatz.de",
-  gmap:"https://maps.google.com/?cid=13024153474986370689",
-  desc:"Small hotel on the medieval main square of a beautifully preserved old town.",
-  photo:PH+"AJRVUZOuc7gQuvJB7Gnd35mdFuyjzicPmjZrD77BHTO9ccL4lcbMC517l4Z-4UOljaDywdAklqdsywIi-nTGNgqRQLHo1d1wV6Vu4-4kVlw3Ozt0tA4OV1ut2vtoVMMpOEMH2KkDZ2eKQSeyOw5OpA=s1200-w800-h600"},
- {id:"reutemann",tier:"budget",name:"Hotel Reutemann-Seegarten",town:"Lindau",lat:47.5446266,lng:9.6830037,
-  rating:4.3,count:"370",price:"~$200–450",badge:"Lakefront",
-  tel:"+49 8382 9150",web:"http://www.reutemann-lindau.de",
-  gmap:"https://maps.google.com/?cid=2778682214970333411",
-  desc:"Lakefront on Lindau island — sister hotel of the $2,900 Bayerischer Hof at a fraction of the price.",
-  photo:PH+"AJRVUZOyLdL1YNSpGfEpcy7gto6AiGViShxQ8tXLoJpebYjVlm4yIWJFJzFwhmNdGnRfghqkbPeuP27paWaVqtXHUY-6qhmVqXIb5rVeENhMeu2ay6XkSdXApuiLjkqY1fSmTzLzigcrw4JFGbTpcA=s1200-w800-h600"},
-];
-const ends=[
- {id:"vaduz",name:"Vaduz",town:"Start · Liechtenstein",lat:47.141,lng:9.521,color:"var(--lav)"},
- {id:"munich",name:"München",town:"Destination · Oktoberfest",lat:48.137,lng:11.575,color:"var(--ink)",ring:true},
-];
 const GMAP=(lat,lng,pid)=>`https://www.google.com/maps/search/?api=1&query=${lat},${lng}&query_place_id=${pid}`;
-const sights=[
- {id:"neuschwanstein",name:"Neuschwanstein Castle",area:"Schwangau · by Füssen",lat:47.557574,lng:10.7498004,
-  rating:4.6,count:"112,765",type:"Fairytale castle",icon:"🏰",
-  pid:"ChIJXaNOxMr3nEcRo7ud02uGpsg",
-  desc:"Ludwig II’s storybook castle (Hohenschwangau sits next door). 5 min from Hotel Sonne; beside the AMERON resort."},
- {id:"fussen",name:"Füssen Old Town",area:"~10 min from AMERON",lat:47.5682795,lng:10.6997363,
-  rating:4.7,count:"501",type:"Riverside medieval town",icon:"🏘️",
-  pid:"ChIJD8T1egD1nEcR_UyFD1xpmcA",
-  desc:"Colorful cobblestone old town with the Hohes Schloss and the Lechfall waterfall — a cozy stop minutes from your base."},
- {id:"wieskirche",name:"Wieskirche",area:"Steingaden · ~30 min from Füssen",lat:47.6805535,lng:10.9004346,
-  rating:4.7,count:"7,986",type:"UNESCO rococo church",icon:"⛪",
-  pid:"ChIJy-Zq9QBRnEcRFvIdY-AP8Vg",
-  desc:"A dazzling rococo pilgrimage church standing alone in alpine meadows. Free entry; a quick, magical stop."},
- {id:"linderhof",name:"Linderhof Palace",area:"Ettal · ~45 min from Garmisch",lat:47.5716123,lng:10.9608242,
-  rating:4.7,count:"22,032",type:"Ludwig II palace",icon:"🏯",
-  pid:"ChIJK6r_2Z1VnEcRnBXBq-4dxaA",
-  desc:"The most ornate of Ludwig II’s palaces, modeled on Versailles, with a famous mirror hall, grotto and gardens."},
- {id:"oberammergau",name:"Oberammergau",area:"~40 min from Füssen",lat:47.598659,lng:11.0620949,
-  rating:4.4,count:"170",type:"Painted alpine village",icon:"🎨",
-  pid:"ChIJ2_tfPg-rnUcR4CPo-iMLEps",
-  desc:"Storybook village famous for Lüftlmalerei fresco facades and woodcarving, ringed by Alpine peaks."},
- {id:"zugspitze",name:"Zugspitze",area:"Garmisch · ~1 hr from Füssen",lat:47.4133491,lng:10.9798841,
-  rating:4.8,count:"6,698",type:"Germany’s highest peak · 2,962 m",icon:"🏔️",
-  pid:"ChIJv8gxDsICnUcReUIrUVs9Q4s",
-  desc:"Cogwheel train or cable car to a 2,962 m summit with panoramic views across four countries."},
- {id:"andechs",name:"Kloster Andechs",area:"Ammersee · ~40 min from Munich",lat:47.9744764,lng:11.1828171,
-  rating:4.5,count:"14,764",type:"Hilltop abbey & beer garden",icon:"🍺",
-  pid:"ChIJ5fKJEyfNnUcRrPGKUHpA6tI",
-  desc:"Baroque pilgrimage abbey above Lake Ammersee, famous for its monastery beer and sweeping country views."},
- {id:"eaglesnest",name:"Eagle’s Nest (Kehlsteinhaus)",area:"Above Berchtesgaden · Salzburg leg",lat:47.6114199,lng:13.0420885,
-  rating:4.6,count:"19,220",type:"WWII-era mountaintop site",icon:"🦅",blue:true,
-  pid:"ChIJhZGDoGnrdkcRq7AFut_XDu4",
-  desc:"Mountaintop lodge at 1,834 m with panoramic Alpine views (bus + tunnel elevator). Best as a day trip from your Salzburg stop right after Munich — not the Vaduz→Munich drive."},
- {id:"rothenburg",name:"Rothenburg ob der Tauber",area:"Romantic Road · ~2 h 45 north",lat:49.3771959,lng:10.1790077,
-  rating:4.8,count:"2,134",type:"Medieval walled town",icon:"🏰",far:true,
-  pid:"ChIJmQ4_QqaPmEcRX4i1XCl7Id4",
-  desc:"One of Germany’s best-preserved walled towns — but ~2 h 45 north of your base. A long day trip, or save it for a separate Romantic Road run."},
+const places=[
+ {id:"neuschwanstein",name:"Neuschwanstein Castle",region:"Schwangau · South Bavaria",lat:47.557574,lng:10.7498004,
+  rating:4.6,count:"112,765",icon:"🏰",pid:"ChIJXaNOxMr3nEcRo7ud02uGpsg",
+  desc:"Ludwig II’s fairytale castle in the Alps — Bavaria’s most iconic sight, beside Hohenschwangau."},
+ {id:"fussen",name:"Füssen",region:"South Bavaria · by the castles",lat:47.5682795,lng:10.6997363,
+  rating:4.7,count:"501",icon:"🏘️",pid:"ChIJD8T1egD1nEcR_UyFD1xpmcA",
+  desc:"Colorful Alpine old town at the foot of the royal castles, with the Hohes Schloss and the Lechfall waterfall."},
+ {id:"berchtesgaden",name:"Berchtesgaden",region:"Southeast Bavaria · near Salzburg",lat:47.6300314,lng:13.001148,
+  rating:null,count:null,icon:"⛰️",pid:"ChIJ053XqF3rdkcRcLc3CaQlHQQ",
+  desc:"Alpine town by the emerald Königssee and the Eagle’s Nest, tucked against the Austrian border near Salzburg."},
+ {id:"rothenburg",name:"Rothenburg ob der Tauber",region:"Romantic Road · North Bavaria",lat:49.3771959,lng:10.1790077,
+  rating:4.8,count:"2,134",icon:"🏘️",pid:"ChIJmQ4_QqaPmEcRX4i1XCl7Id4",
+  desc:"One of Germany’s best-preserved medieval walled towns and the highlight of the Romantic Road."},
+ {id:"bamberg",name:"Bamberg",region:"Franconia · North Bavaria",lat:49.8920218,lng:10.8857781,
+  rating:4.8,count:"6,013",icon:"🏛️",pid:"ChIJDXtJyxcjokcRLfnO_sdfuFI",
+  desc:"UNESCO-listed old town built on seven hills, famed for its riverside Altes Rathaus and smoked beer."},
 ];
-const COLORS={upscale:getComputedStyle(document.documentElement).getPropertyValue('--peach').trim(),
-              budget:getComputedStyle(document.documentElement).getPropertyValue('--sage').trim()};
+function starStr(r){const f=Math.round(r);return '★★★★★'.slice(0,f)+'☆☆☆☆☆'.slice(0,5-f);}
+function starIcon(){return L.divIcon({className:'',iconSize:[30,30],iconAnchor:[15,15],popupAnchor:[0,-16],
+  html:`<div class="pin-star">★</div>`});}
 
 const map=L.map('map',{scrollWheelZoom:true});
 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{
@@ -277,169 +101,40 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r
   attribution:'&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
 }).addTo(map);
 
-function pin(color,ring){
-  return L.divIcon({className:'',iconSize:[26,36],iconAnchor:[13,33],popupAnchor:[0,-30],
-    html:`<div class="pin ${ring?'ring':''}" style="--c:${color}"></div>`});
-}
-function starIcon(variant){
-  return L.divIcon({className:'',iconSize:[30,30],iconAnchor:[15,15],popupAnchor:[0,-16],
-    html:`<div class="pin-star ${variant||''}">★</div>`});
-}
-function starStr(r){const f=Math.round(r);return '★★★★★'.slice(0,f)+'☆☆☆☆☆'.slice(0,5-f);}
-
 const markers={};
-hotels.forEach(h=>{
-  const m=L.marker([h.lat,h.lng],{icon:pin(COLORS[h.tier],h.base)}).addTo(map);
-  const baseTag=h.base?`<div style="display:inline-block;background:var(--gold);color:#fff;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;padding:3px 8px;border-radius:999px;margin-bottom:4px">★ Your base</div><br>`:'';
-  m.bindPopup(`<div class="pop">${baseTag}<div class="pt">${h.town}</div><h3>${h.name}</h3>
-    <div class="ps">${starStr(h.rating)} <small style="color:#6E675B">${h.rating} (${h.count})</small></div>
-    <div class="pp">${h.price} <span style="font-weight:400;color:#6E675B">/ night</span></div>
-    <a href="${h.gmap}" target="_blank">Google Maps ↗</a> &nbsp;·&nbsp;
-    <a href="${h.web}" target="_blank">Website ↗</a></div>`);
-  m.bindTooltip(h.town,{permanent:true,direction:'right',offset:[10,-13],className:'lbl city'});
-  m.tier=h.tier; markers[h.id]=m;
+places.forEach(p=>{
+  const m=L.marker([p.lat,p.lng],{icon:starIcon()}).addTo(map);
+  const rt=p.rating?`<div class="ps">${starStr(p.rating)} <small style="color:#6E675B">${p.rating} (${p.count})</small></div>`:'';
+  m.bindPopup(`<div class="pop"><div class="pt">${p.region}</div><h3>${p.icon} ${p.name}</h3>${rt}
+    <a href="${GMAP(p.lat,p.lng,p.pid)}" target="_blank">Google Maps ↗</a></div>`);
+  m.bindTooltip(p.name,{permanent:true,direction:'top',offset:[0,-13],className:'lbl'});
+  markers[p.id]=m;
 });
-ends.forEach(e=>{
-  const m=L.marker([e.lat,e.lng],{icon:pin(e.color,e.ring)}).addTo(map);
-  m.bindPopup(`<div class="pop"><div class="pt">${e.town}</div><h3>${e.name}</h3></div>`);
-  m.bindTooltip(e.name,{permanent:true,direction:'right',offset:[10,-13],className:'lbl city'});
-  m.tier='end'; markers[e.id]=m;
-});
+map.fitBounds(places.map(p=>[p.lat,p.lng]),{padding:[60,60]});
 
-// suggested route: Vaduz → AMERON (base) → Munich (day trip / onward)
-const routePts=[[47.141,9.521],[47.5539,10.7377],[48.137,11.575]];
-const route=L.polyline(routePts,{color:'#5C6A4B',weight:3,opacity:.85,dashArray:'7,8'});
-route.addTo(map);
-
-// landmark sights (gold star pins)
-const sightMarkers={};
-sights.forEach(s=>{
-  const m=L.marker([s.lat,s.lng],{icon:starIcon(s.blue?'blue':'')}).addTo(map);
-  const rt=s.rating?`<div class="ps">${starStr(s.rating)} <small style="color:#6E675B">${s.rating} (${s.count})</small></div>`:'';
-  m.bindPopup(`<div class="pop"><div class="pt">${s.area}</div><h3>${s.icon} ${s.name}</h3>
-    <div class="pp" style="font-weight:500;color:#5C6A4B">${s.type}</div>${rt}
-    <a href="${GMAP(s.lat,s.lng,s.pid)}" target="_blank">Google Maps ↗</a></div>`);
-  m.bindTooltip(s.name,{permanent:true,direction:'top',offset:[0,-13],className:'lbl '+(s.blue?'blue':'sight')});
-  sightMarkers[s.id]=m;
-});
-
-// frame the default view on the within-~2hr corridor only;
-// far markers (Rothenburg, Eagle's Nest) stay on the map but don't widen the view
-const nearPts=[...hotels,...ends,...sights.filter(s=>!s.far && !s.blue)].map(h=>[h.lat,h.lng]);
-map.fitBounds(nearPts,{padding:[50,50]});
-
-// filter
-let active='all';
-document.querySelectorAll('#filter button').forEach(b=>{
-  b.onclick=()=>{
-    document.querySelectorAll('#filter button').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active'); active=b.dataset.f; applyFilter();
-  };
-});
-function visible(tier){return active==='all'||tier==='end'||tier===active;}
-function applyFilter(){
-  Object.entries(markers).forEach(([id,m])=>{
-    const show=visible(m.tier);
-    if(show && !map.hasLayer(m))m.addTo(map);
-    if(!show && map.hasLayer(m))map.removeLayer(m);
-  });
-  renderCards();
-}
-document.getElementById('routeToggle').onchange=e=>{
-  if(e.target.checked)route.addTo(map);else map.removeLayer(route);
-};
-document.getElementById('sightToggle').onchange=e=>{
-  Object.values(sightMarkers).forEach(m=>{ if(e.target.checked)m.addTo(map); else map.removeLayer(m); });
-};
-
-// cards
 const cardsEl=document.getElementById('cards');
-function renderCards(){
-  cardsEl.innerHTML='';
-  hotels.filter(h=>active==='all'||h.tier===active).forEach(h=>{
-    const badgeColor=h.base?'var(--gold)':(h.tier==='upscale'?'var(--peach)':'var(--sage)');
-    const badgeText=h.base?'★ Your base':h.badge;
-    const dir=`https://www.google.com/maps/dir/?api=1&destination=${h.lat},${h.lng}`;
-    const el=document.createElement('div');
-    el.className='hotel'+(h.base?' isbase':'');
-    el.innerHTML=`
-      <div class="photo" style="background-image:url('${h.photo}')">
-        <span class="badge" style="background:${badgeColor}">${badgeText}</span>
-      </div>
-      <div class="body">
-        <div class="town">${h.town}</div>
-        <h3 class="hname">${h.name}</h3>
-        <div class="stars">${starStr(h.rating)}<small>${h.rating} (${h.count})</small></div>
-        <div class="price">${h.price} <span>/ night · typical</span></div>
-        <div class="desc">${h.desc}</div>
-        <div class="links">
-          <a class="primary" href="${h.gmap}" target="_blank" onclick="event.stopPropagation()">Google Maps</a>
-          <a href="${h.web}" target="_blank" onclick="event.stopPropagation()">Website</a>
-          <a href="${dir}" target="_blank" onclick="event.stopPropagation()">Directions</a>
-        </div>
-      </div>`;
-    el.onclick=()=>{const m=markers[h.id];map.flyTo([h.lat,h.lng],12,{duration:.8});
-      setTimeout(()=>m.openPopup(),700);
-      window.scrollTo({top:document.getElementById('map').offsetTop-10,behavior:'smooth'});};
-    cardsEl.appendChild(el);
-  });
-}
-renderCards();
-
-// sight cards
-const sightsEl=document.getElementById('sights');
-sights.forEach(s=>{
-  const rt=s.rating?`<div class="stars">${starStr(s.rating)}<small>${s.rating} (${s.count})</small></div>`:'';
+places.forEach(p=>{
+  const rt=p.rating?`<div class="stars">${starStr(p.rating)}<small>${p.rating} (${p.count})</small></div>`:'';
+  const dir=`https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}`;
   const el=document.createElement('div');
-  el.className='hotel sight'+(s.blue?' blue':'');
+  el.className='card';
   el.innerHTML=`
-    <div class="banner">${s.icon}<span class="t">${s.type}</span></div>
+    <div class="banner">${p.icon}<span class="t">${p.region.split('·')[0].trim()}</span></div>
     <div class="body">
-      <div class="town">${s.area}</div>
-      <h3 class="hname">${s.name}</h3>
+      <div class="region">${p.region}</div>
+      <h3 class="name">${p.name}</h3>
       ${rt}
-      <div class="desc">${s.desc}</div>
+      <div class="desc">${p.desc}</div>
       <div class="links">
-        <a class="primary" href="${GMAP(s.lat,s.lng,s.pid)}" target="_blank" onclick="event.stopPropagation()">Google Maps</a>
-        <a href="https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}" target="_blank" onclick="event.stopPropagation()">Directions</a>
+        <a class="primary" href="${GMAP(p.lat,p.lng,p.pid)}" target="_blank" onclick="event.stopPropagation()">Google Maps</a>
+        <a href="${dir}" target="_blank" onclick="event.stopPropagation()">Directions</a>
       </div>
     </div>`;
-  el.onclick=()=>{const m=sightMarkers[s.id];map.flyTo([s.lat,s.lng],11,{duration:.8});
-    setTimeout(()=>m.openPopup(),700);
+  el.onclick=()=>{map.flyTo([p.lat,p.lng],11,{duration:.8});
+    setTimeout(()=>markers[p.id].openPopup(),700);
     window.scrollTo({top:document.getElementById('map').offsetTop-10,behavior:'smooth'});};
-  sightsEl.appendChild(el);
+  cardsEl.appendChild(el);
 });
-
-// at-a-glance summary
-const sumH=document.getElementById('sumHotels');
-hotels.forEach(h=>{const li=document.createElement('li');
-  li.innerHTML=`<span style="color:var(--ink);white-space:normal">${h.name} &nbsp;<em style="color:var(--saged);font-style:normal">· ${h.town}</em></span><span>${h.price}</span>`;
-  sumH.appendChild(li);});
-const sumS=document.getElementById('sumSights');
-sights.forEach(s=>{const li=document.createElement('li');
-  const dist=s.area.includes('·')?s.area.split('·').pop().trim():s.area;
-  li.innerHTML=`<span style="color:var(--ink);white-space:normal">${s.icon} ${s.name}</span><span>${dist}</span>`;
-  sumS.appendChild(li);});
-
-// travel times from AMERON · Schwangau (at the castles)
-const baseTimes=[
-  {to:"Neuschwanstein & Hohenschwangau Castles",km:"1–2 km",t:"~5 min (walk/shuttle)"},
-  {to:"Füssen old town",km:"5 km",t:"~10 min"},
-  {to:"Wieskirche (rococo church)",km:"25 km",t:"~30 min"},
-  {to:"Oberammergau (painted village)",km:"45 km",t:"~50 min"},
-  {to:"Linderhof Palace",km:"50 km",t:"~55 min"},
-  {to:"Zugspitze (via Garmisch)",km:"60 km",t:"~1 h 00"},
-  {to:"Kloster Andechs (Lake Ammersee)",km:"95 km",t:"~1 h 25"},
-  {to:"Munich (city day trip)",km:"120 km",t:"~1 h 35"},
-  {to:"Vaduz (previous stop)",km:"140 km",t:"~1 h 50"},
-  {to:"Salzburg (next stop after Munich)",km:"190 km",t:"~2 h 20",far:true},
-  {to:"Eagle’s Nest / Berchtesgaden",km:"230 km",t:"~2 h 50",far:true},
-  {to:"Rothenburg ob der Tauber (north)",km:"205 km",t:"~2 h 45",far:true},
-];
-const ttBody=document.getElementById('ttBody');
-baseTimes.forEach(r=>{const tr=document.createElement('tr');if(r.far)tr.className='far';
-  tr.innerHTML=`<td class="dest">${r.to}</td><td class="r">${r.km}</td><td class="r">${r.t}</td>`;
-  ttBody.appendChild(tr);});
 </script>
 </body>
 </html>
