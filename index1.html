@@ -75,6 +75,8 @@
   .pin-star{width:30px;height:30px;border-radius:50%;background:var(--gold);border:3px solid #fff;
     box-shadow:0 0 0 4px rgba(184,155,94,.30),0 3px 9px rgba(0,0,0,.40);
     display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;line-height:1}
+  .pin-star.blue{background:#3B6EA5;box-shadow:0 0 0 4px rgba(59,110,165,.32),0 3px 9px rgba(0,0,0,.40)}
+  .sight.blue .banner{background:linear-gradient(135deg,#3B6EA5,#5C7E9E)}
   .sight .banner{height:78px;display:flex;align-items:center;justify-content:center;font-size:34px;
     background:linear-gradient(135deg,var(--gold),var(--sage));color:#fff;position:relative}
   .sight .banner .t{position:absolute;bottom:7px;right:11px;font-size:10px;letter-spacing:.12em;
@@ -116,6 +118,7 @@
     <span><i class="dot" style="background:var(--lav)"></i> Start · Vaduz</span>
     <span><i class="dot" style="background:var(--ink);box-shadow:0 0 0 2px var(--gold)"></i> Munich</span>
     <span><i class="dot" style="background:var(--gold)"></i> Must-see sight</span>
+    <span><i class="dot" style="background:#3B6EA5"></i> Eagle’s Nest · Salzburg leg</span>
   </div>
 
   <div class="note">Oktoberfest runs through Oct 4 (Oct 3 is a national holiday), so Munich-area rooms spike. Pick one or two base towns below and day-trip to the sights — all within about 2 hours. Everything here sits south/southwest of Munich; the eastern sights (Berchtesgaden, Eagle’s Nest) are easy from your Salzburg stop right after. Prices are typical ranges, not live quotes — book early for the holiday weekend.</div>
@@ -225,6 +228,10 @@ const sights=[
   rating:4.5,count:"14,764",type:"Hilltop abbey & beer garden",icon:"🍺",
   pid:"ChIJ5fKJEyfNnUcRrPGKUHpA6tI",
   desc:"Baroque pilgrimage abbey above Lake Ammersee, famous for its monastery beer and sweeping country views."},
+ {id:"eaglesnest",name:"Eagle’s Nest (Kehlsteinhaus)",area:"Above Berchtesgaden · Salzburg leg",lat:47.6114199,lng:13.0420885,
+  rating:4.6,count:"19,220",type:"WWII-era mountaintop site",icon:"🦅",blue:true,
+  pid:"ChIJhZGDoGnrdkcRq7AFut_XDu4",
+  desc:"Mountaintop lodge at 1,834 m with panoramic Alpine views (bus + tunnel elevator). Best as a day trip from your Salzburg stop right after Munich — not the Vaduz→Munich drive."},
 ];
 const COLORS={upscale:getComputedStyle(document.documentElement).getPropertyValue('--peach').trim(),
               budget:getComputedStyle(document.documentElement).getPropertyValue('--sage').trim()};
@@ -239,9 +246,9 @@ function pin(color,ring){
   return L.divIcon({className:'',iconSize:[26,36],iconAnchor:[13,33],popupAnchor:[0,-30],
     html:`<div class="pin ${ring?'ring':''}" style="--c:${color}"></div>`});
 }
-function starIcon(){
+function starIcon(variant){
   return L.divIcon({className:'',iconSize:[30,30],iconAnchor:[15,15],popupAnchor:[0,-16],
-    html:`<div class="pin-star">★</div>`});
+    html:`<div class="pin-star ${variant||''}">★</div>`});
 }
 function starStr(r){const f=Math.round(r);return '★★★★★'.slice(0,f)+'☆☆☆☆☆'.slice(0,5-f);}
 
@@ -269,7 +276,7 @@ route.addTo(map);
 // landmark sights (gold star pins)
 const sightMarkers={};
 sights.forEach(s=>{
-  const m=L.marker([s.lat,s.lng],{icon:starIcon()}).addTo(map);
+  const m=L.marker([s.lat,s.lng],{icon:starIcon(s.blue?'blue':'')}).addTo(map);
   const rt=s.rating?`<div class="ps">${starStr(s.rating)} <small style="color:#6E675B">${s.rating} (${s.count})</small></div>`:'';
   m.bindPopup(`<div class="pop"><div class="pt">${s.area}</div><h3>${s.icon} ${s.name}</h3>
     <div class="pp" style="font-weight:500;color:#5C6A4B">${s.type}</div>${rt}
@@ -342,7 +349,7 @@ const sightsEl=document.getElementById('sights');
 sights.forEach(s=>{
   const rt=s.rating?`<div class="stars">${starStr(s.rating)}<small>${s.rating} (${s.count})</small></div>`:'';
   const el=document.createElement('div');
-  el.className='hotel sight';
+  el.className='hotel sight'+(s.blue?' blue':'');
   el.innerHTML=`
     <div class="banner">${s.icon}<span class="t">${s.type}</span></div>
     <div class="body">
