@@ -1188,8 +1188,8 @@
 
   .table-modal-row {
     display: grid;
-    grid-template-columns: 1fr auto auto;
-    gap: 0.75rem;
+    grid-template-columns: 1fr auto auto auto auto;
+    gap: 0.65rem;
     align-items: center;
     padding: 0.65rem 0.85rem;
     background: var(--cream);
@@ -1222,6 +1222,114 @@
     border-radius: 999px;
     letter-spacing: 0.03em;
     white-space: nowrap;
+  }
+
+  .modal-seat-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .modal-seat-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    font-weight: 500;
+  }
+
+  .modal-seat-input {
+    width: 50px;
+    padding: 0.3rem 0.4rem;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+    color: var(--sage);
+    background: var(--paper);
+    transition: border-color 0.15s ease;
+  }
+
+  .modal-seat-input:focus {
+    outline: none;
+    border-color: var(--sage);
+  }
+
+  .modal-side-toggle {
+    display: inline-flex;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--paper);
+    height: 30px;
+  }
+
+  .modal-side-toggle button {
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--rule-soft);
+    padding: 0 9px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--ink-muted);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .modal-side-toggle button:last-child { border-right: none; }
+  .modal-side-toggle button:hover { background: var(--rule-soft); color: var(--ink); }
+  .modal-side-toggle button.active {
+    background: var(--gold);
+    color: var(--paper);
+  }
+
+  /* Side group headers within the modal */
+  .side-group-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
+    margin: 0.85rem 0 0.5rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px dashed var(--rule);
+  }
+
+  .side-group-label:first-child { margin-top: 0; }
+
+  .side-group-count {
+    margin-left: auto;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    background: var(--rule-soft);
+    color: var(--ink-muted);
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+
+  .side-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .side-dot.side-1 { background: var(--gold); }
+  .side-dot.side-2 {
+    background: transparent;
+    border: 2px solid var(--gold);
+  }
+  .side-dot.side-none {
+    background: transparent;
+    border: 2px dashed var(--ink-muted);
   }
 
   .pick-btn {
@@ -1730,7 +1838,7 @@
 
   .additional-guest-row {
     display: grid;
-    grid-template-columns: 1fr 80px auto auto;
+    grid-template-columns: 1fr 70px 60px 70px auto auto;
     gap: 0.5rem;
     align-items: center;
   }
@@ -1739,6 +1847,74 @@
     text-align: center;
     font-weight: 600;
     color: var(--wine);
+  }
+
+  .additional-seat-input {
+    text-align: center;
+    font-weight: 600;
+    color: var(--sage);
+  }
+
+  /* Tiny 1/2 toggle for additional guest row */
+  .additional-side-toggle {
+    display: inline-flex;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--paper);
+    height: 32px;
+  }
+
+  .additional-side-toggle button {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--rule-soft);
+    padding: 0;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--ink-muted);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    min-width: 24px;
+  }
+
+  .additional-side-toggle button:last-child { border-right: none; }
+  .additional-side-toggle button:hover { background: var(--rule-soft); color: var(--ink); }
+  .additional-side-toggle button.active {
+    background: var(--gold);
+    color: var(--paper);
+  }
+
+  /* Larger 3-state segment for the main guest form */
+  .table-side-segment {
+    display: flex;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--paper);
+  }
+
+  .table-side-segment button {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-right: 1px solid var(--rule-soft);
+    padding: 0.55rem 0.5rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .table-side-segment button:last-child { border-right: none; }
+  .table-side-segment button:hover { background: var(--rule-soft); color: var(--ink); }
+  .table-side-segment button.active {
+    background: var(--gold);
+    color: var(--paper);
   }
 
   .additional-rsvp {
@@ -1770,7 +1946,7 @@
 
   @media (max-width: 640px) {
     .additional-guest-row {
-      grid-template-columns: 1fr 70px auto;
+      grid-template-columns: 1fr 55px 50px 55px auto;
     }
     .additional-rsvp {
       grid-column: 1 / -1;
@@ -2470,12 +2646,16 @@ async function loadState() {
         invited: !!g.invited,
         thankYouSent: !!g.thankYouSent,
         tableNumber: g.tableNumber || '',
+        tableSide: g.tableSide || '',
+        seatNumber: g.seatNumber || '',
         additionalGuests: Array.isArray(g.additionalGuests) ? g.additionalGuests.map((a) => ({
           id: a.id,
           name: a.name || '',
           rsvp: a.rsvp || '',
           notes: a.notes || '',
           tableNumber: a.tableNumber || '',
+          tableSide: a.tableSide || '',
+          seatNumber: a.seatNumber || '',
         })) : [],
       }));
       state = {
@@ -2528,12 +2708,16 @@ function subscribeToChanges() {
         invited: !!g.invited,
         thankYouSent: !!g.thankYouSent,
         tableNumber: g.tableNumber || '',
+        tableSide: g.tableSide || '',
+        seatNumber: g.seatNumber || '',
         additionalGuests: Array.isArray(g.additionalGuests) ? g.additionalGuests.map((a) => ({
           id: a.id,
           name: a.name || '',
           rsvp: a.rsvp || '',
           notes: a.notes || '',
           tableNumber: a.tableNumber || '',
+          tableSide: a.tableSide || '',
+          seatNumber: a.seatNumber || '',
         })) : [],
       }));
       state = {
@@ -3176,6 +3360,8 @@ function renderGuests() {
         side: g.side,
         group: g.group,
         tableNumber: g.tableNumber || '',
+        tableSide: g.tableSide || '',
+        seatNumber: g.seatNumber || '',
         name: g.name || '',
         rsvp: g.rsvp || '',
       });
@@ -3189,18 +3375,31 @@ function renderGuests() {
           side: g.side,
           group: g.group,
           tableNumber: a.tableNumber || '',
+          tableSide: a.tableSide || '',
+          seatNumber: a.seatNumber || '',
           name: a.name || '',
           rsvp: a.rsvp || '',
         });
       });
     });
 
-    // Sort each person by table, then by name within table
+    // Sort each person by table, then by table side, then by seat number within side, then by name
     const tableMajor = (t) => {
       const trimmed = (t || '').trim();
       if (!trimmed) return 999999;
       const num = parseInt(trimmed, 10);
       return isNaN(num) ? 999998 : num;
+    };
+    const seatMajor = (s) => {
+      const trimmed = (s || '').trim();
+      if (!trimmed) return 999999;
+      const num = parseInt(trimmed, 10);
+      return isNaN(num) ? 999998 : num;
+    };
+    const sideMajor = (s) => {
+      const trimmed = (s || '').trim();
+      if (!trimmed) return 9;
+      return parseInt(trimmed, 10) || 9;
     };
     people.sort((a, b) => {
       const ma = tableMajor(a.tableNumber);
@@ -3209,6 +3408,13 @@ function renderGuests() {
       const ta = (a.tableNumber || '').toLowerCase();
       const tb = (b.tableNumber || '').toLowerCase();
       if (ta !== tb) return ta.localeCompare(tb);
+      // Same table — sort by side, then by seat number
+      const sda = sideMajor(a.tableSide);
+      const sdb = sideMajor(b.tableSide);
+      if (sda !== sdb) return sda - sdb;
+      const sa = seatMajor(a.seatNumber);
+      const sb = seatMajor(b.seatNumber);
+      if (sa !== sb) return sa - sb;
       return a.name.localeCompare(b.name);
     });
 
@@ -3275,7 +3481,11 @@ function renderGuestRow(g) {
   let metaPills = '';
   if (sideInfo) metaPills += `<span class="guest-meta-pill ${sideInfo.cls}">${sideInfo.label}</span>`;
   if (g.group) metaPills += `<span class="guest-meta-pill">${escapeHtml(g.group)}</span>`;
-  if (g.tableNumber) metaPills += `<span class="guest-meta-pill table-pill">Table ${escapeHtml(g.tableNumber)}</span>`;
+  if (g.tableNumber) {
+    const sideSuffix = g.tableSide ? ` · Side ${escapeHtml(g.tableSide)}` : '';
+    const seatSuffix = g.seatNumber ? ` · Seat ${escapeHtml(g.seatNumber)}` : '';
+    metaPills += `<span class="guest-meta-pill table-pill">Table ${escapeHtml(g.tableNumber)}${sideSuffix}${seatSuffix}</span>`;
+  }
 
   return `
     <div class="guest-row ${isExpanded ? 'expanded' : ''}" id="guest-${g.id}">
@@ -3324,6 +3534,18 @@ function renderGuestDetail(g) {
       <div class="field">
         <label class="field-label">Table Number</label>
         <input class="field-input" type="text" value="${escapeAttr(g.tableNumber || '')}" placeholder="e.g. 5 or Sweetheart" oninput="updateGuestField('${g.id}', 'tableNumber', this.value)">
+      </div>
+      <div class="field">
+        <label class="field-label">Table Side</label>
+        <div class="table-side-segment">
+          <button type="button" class="${(!g.tableSide || g.tableSide === '') ? 'active' : ''}" onclick="updateGuestField('${g.id}', 'tableSide', '')">—</button>
+          <button type="button" class="${g.tableSide === '1' ? 'active' : ''}" onclick="updateGuestField('${g.id}', 'tableSide', '1')">Side 1</button>
+          <button type="button" class="${g.tableSide === '2' ? 'active' : ''}" onclick="updateGuestField('${g.id}', 'tableSide', '2')">Side 2</button>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field-label">Seat Number</label>
+        <input class="field-input" type="text" value="${escapeAttr(g.seatNumber || '')}" placeholder="e.g. 1, 2, 3..." oninput="updateGuestField('${g.id}', 'seatNumber', this.value)">
       </div>
       <div class="field">
         <label class="field-label">Email</label>
@@ -3392,6 +3614,8 @@ function renderTableViewRow(p) {
   let metaPills = '';
   if (sideInfo) metaPills += `<span class="guest-meta-pill ${sideInfo.cls}">${sideInfo.label}</span>`;
   if (p.group) metaPills += `<span class="guest-meta-pill">${escapeHtml(p.group)}</span>`;
+  if (p.tableSide) metaPills += `<span class="guest-meta-pill" style="background:rgba(184,146,74,0.18);color:#7a5a2a;font-weight:600;">Side ${escapeHtml(p.tableSide)}</span>`;
+  if (p.seatNumber) metaPills += `<span class="guest-meta-pill" style="background:rgba(122,139,106,0.18);color:#4a5a3a;font-weight:600;">Seat ${escapeHtml(p.seatNumber)}</span>`;
 
   const partyLabel = p.kind === 'additional'
     ? ` <span class="table-row-party">with ${escapeHtml(p.partyName || '—')}</span>`
@@ -3421,6 +3645,11 @@ function renderAdditionalGuest(parentId, a) {
     <div class="additional-guest-row" id="additional-${a.id}">
       <input type="text" class="field-input" value="${escapeAttr(a.name || '')}" placeholder="Guest name" oninput="updateAdditionalGuest('${parentId}', '${a.id}', 'name', this.value)">
       <input type="text" class="field-input additional-table-input" value="${escapeAttr(a.tableNumber || '')}" placeholder="Table" oninput="updateAdditionalGuest('${parentId}', '${a.id}', 'tableNumber', this.value)" title="Table number">
+      <div class="additional-side-toggle" title="Which side of the table">
+        <button type="button" class="${a.tableSide === '1' ? 'active' : ''}" onclick="updateAdditionalGuest('${parentId}', '${a.id}', 'tableSide', a.tableSide === '1' ? '' : '1'); event.stopPropagation();">1</button>
+        <button type="button" class="${a.tableSide === '2' ? 'active' : ''}" onclick="updateAdditionalGuest('${parentId}', '${a.id}', 'tableSide', a.tableSide === '2' ? '' : '2'); event.stopPropagation();">2</button>
+      </div>
+      <input type="text" class="field-input additional-seat-input" value="${escapeAttr(a.seatNumber || '')}" placeholder="Seat" oninput="updateAdditionalGuest('${parentId}', '${a.id}', 'seatNumber', this.value)" title="Seat number">
       <div class="rsvp-segment additional-rsvp">
         <button class="${(!a.rsvp || a.rsvp === '') ? 'active' : ''}" onclick="updateAdditionalGuest('${parentId}', '${a.id}', 'rsvp', '')" title="No reply">?</button>
         <button class="yes ${a.rsvp === 'yes' ? 'active' : ''}" onclick="updateAdditionalGuest('${parentId}', '${a.id}', 'rsvp', 'yes')" title="Attending">✓</button>
@@ -3657,9 +3886,13 @@ function renderTableModal() {
   html += `<div class="table-section-label">${isUnassigned ? 'People without a table' : 'Seated at this table'}</div>`;
   if (peopleAtTable.length === 0) {
     html += `<div class="table-picker-empty">No one assigned yet — pick from the list below.</div>`;
-  } else {
+  } else if (isUnassigned) {
+    // Unassigned table — keep the simple list, no side grouping
+    const sortedPeople = peopleAtTable.slice().sort((a, b) =>
+      (a.person.name || '').localeCompare(b.person.name || '')
+    );
     html += `<div class="table-modal-list">`;
-    peopleAtTable.forEach((p) => {
+    sortedPeople.forEach((p) => {
       const rsvpInfo = getRsvpInfo(p.person.rsvp);
       const meta = p.kind === 'additional' ? `with ${escapeHtml(p.partyName || '—')}` : '';
       html += `
@@ -3669,11 +3902,66 @@ function renderTableModal() {
             ${meta ? `<div class="person-meta">${meta}</div>` : ''}
           </div>
           <span class="rsvp-badge ${rsvpInfo.cls}" style="font-size:0.7rem; padding:0.15rem 0.55rem;">${rsvpInfo.label}</span>
-          ${isUnassigned ? '' : `<button class="pick-btn remove" onclick="removeFromTable('${p.partyId}', '${p.additionalId || ''}')">Remove</button>`}
         </div>
       `;
     });
     html += `</div>`;
+  } else {
+    // Real table — group by side, then sort by seat within each side
+    const seatNum = (p) => {
+      const s = (p.person.seatNumber || '').trim();
+      if (!s) return 999999;
+      const num = parseInt(s, 10);
+      return isNaN(num) ? 999998 : num;
+    };
+    const renderPersonRow = (p) => {
+      const rsvpInfo = getRsvpInfo(p.person.rsvp);
+      const meta = p.kind === 'additional' ? `with ${escapeHtml(p.partyName || '—')}` : '';
+      const seatInputId = `modalSeat-${p.partyId}-${p.additionalId || 'main'}`;
+      const seatValue = p.person.seatNumber || '';
+      const currentSide = p.person.tableSide || '';
+      return `
+        <div class="table-modal-row assigned">
+          <div>
+            <div class="person-name">${escapeHtml(p.person.name || '(no name)')}</div>
+            ${meta ? `<div class="person-meta">${meta}</div>` : ''}
+          </div>
+          <div class="modal-side-toggle" title="Which side of the table">
+            <button type="button" class="${currentSide === '1' ? 'active' : ''}" onclick="updateSideFromModal('${p.partyId}', '${p.additionalId || ''}', '${currentSide === '1' ? '' : '1'}')">1</button>
+            <button type="button" class="${currentSide === '2' ? 'active' : ''}" onclick="updateSideFromModal('${p.partyId}', '${p.additionalId || ''}', '${currentSide === '2' ? '' : '2'}')">2</button>
+          </div>
+          <div class="modal-seat-wrap">
+            <label class="modal-seat-label">Seat</label>
+            <input type="text" id="${seatInputId}" class="modal-seat-input" value="${escapeAttr(seatValue)}" placeholder="—" oninput="updateSeatFromModal('${p.partyId}', '${p.additionalId || ''}', this.value)">
+          </div>
+          <span class="rsvp-badge ${rsvpInfo.cls}" style="font-size:0.7rem; padding:0.15rem 0.55rem;">${rsvpInfo.label}</span>
+          <button class="pick-btn remove" onclick="removeFromTable('${p.partyId}', '${p.additionalId || ''}')">Remove</button>
+        </div>
+      `;
+    };
+
+    const side1 = peopleAtTable.filter((p) => (p.person.tableSide || '') === '1');
+    const side2 = peopleAtTable.filter((p) => (p.person.tableSide || '') === '2');
+    const noSide = peopleAtTable.filter((p) => {
+      const s = p.person.tableSide || '';
+      return s !== '1' && s !== '2';
+    });
+    side1.sort((a, b) => seatNum(a) - seatNum(b) || (a.person.name||'').localeCompare(b.person.name||''));
+    side2.sort((a, b) => seatNum(a) - seatNum(b) || (a.person.name||'').localeCompare(b.person.name||''));
+    noSide.sort((a, b) => (a.person.name||'').localeCompare(b.person.name||''));
+
+    if (side1.length > 0) {
+      html += `<div class="side-group-label"><span class="side-dot side-1"></span>Side 1 <span class="side-group-count">${side1.length} ${side1.length === 1 ? 'person' : 'people'}</span></div>`;
+      html += `<div class="table-modal-list">${side1.map(renderPersonRow).join('')}</div>`;
+    }
+    if (side2.length > 0) {
+      html += `<div class="side-group-label"><span class="side-dot side-2"></span>Side 2 <span class="side-group-count">${side2.length} ${side2.length === 1 ? 'person' : 'people'}</span></div>`;
+      html += `<div class="table-modal-list">${side2.map(renderPersonRow).join('')}</div>`;
+    }
+    if (noSide.length > 0) {
+      html += `<div class="side-group-label"><span class="side-dot side-none"></span>No side assigned <span class="side-group-count">${noSide.length} ${noSide.length === 1 ? 'person' : 'people'}</span></div>`;
+      html += `<div class="table-modal-list">${noSide.map(renderPersonRow).join('')}</div>`;
+    }
   }
 
   // ── Section 2: rename/relabel (only for real tables) ──
@@ -3744,6 +4032,43 @@ function updatePickerSearch(v) {
       try { newInput.setSelectionRange(caretPos, caretPos); } catch (e) {}
     }
   }
+}
+
+// Debounced seat update from the table modal — saves to state, doesn't fully re-render
+// (avoids stealing input focus while you're typing the next seat number)
+let modalSeatTimer;
+function updateSeatFromModal(partyId, additionalId, value) {
+  const party = state.guests.find((g) => g.id === partyId);
+  if (!party) return;
+  if (additionalId) {
+    const a = (party.additionalGuests || []).find((x) => x.id === additionalId);
+    if (!a) return;
+    a.seatNumber = value;
+  } else {
+    party.seatNumber = value;
+  }
+  clearTimeout(modalSeatTimer);
+  modalSeatTimer = setTimeout(() => {
+    saveState();
+    // Re-render the main guest list (in case the row is visible behind the modal)
+    renderGuests();
+  }, 400);
+}
+
+// Side selection from the modal — immediate (button toggle, not free text)
+function updateSideFromModal(partyId, additionalId, value) {
+  const party = state.guests.find((g) => g.id === partyId);
+  if (!party) return;
+  if (additionalId) {
+    const a = (party.additionalGuests || []).find((x) => x.id === additionalId);
+    if (!a) return;
+    a.tableSide = value;
+  } else {
+    party.tableSide = value;
+  }
+  saveState();
+  renderGuests();
+  renderTableModal(); // re-render to reshuffle people into side groups
 }
 
 function setPersonTable(partyId, additionalId, newTable) {
@@ -3860,6 +4185,8 @@ function quickAddPersonToTable() {
       rsvp: '',
       notes: '',
       tableNumber: tableValue,
+      tableSide: '',
+      seatNumber: '',
     });
   } else {
     // Default: new main guest
@@ -3877,6 +4204,8 @@ function quickAddPersonToTable() {
       invited: false,
       thankYouSent: false,
       tableNumber: tableValue,
+      tableSide: '',
+      seatNumber: '',
       additionalGuests: [],
     });
   }
@@ -3998,7 +4327,11 @@ function refreshGuestRowMeta(id) {
     let html = '';
     if (sideInfo) html += `<span class="guest-meta-pill ${sideInfo.cls}">${sideInfo.label}</span>`;
     if (g.group)  html += `<span class="guest-meta-pill">${escapeHtml(g.group)}</span>`;
-    if (g.tableNumber) html += `<span class="guest-meta-pill table-pill">Table ${escapeHtml(g.tableNumber)}</span>`;
+    if (g.tableNumber) {
+      const sideSuffix = g.tableSide ? ` · Side ${escapeHtml(g.tableSide)}` : '';
+      const seatSuffix = g.seatNumber ? ` · Seat ${escapeHtml(g.seatNumber)}` : '';
+      html += `<span class="guest-meta-pill table-pill">Table ${escapeHtml(g.tableNumber)}${sideSuffix}${seatSuffix}</span>`;
+    }
     metaEl.innerHTML = html || '<span style="color:var(--ink-muted); font-style:italic;">—</span>';
   }
 }
@@ -4023,6 +4356,8 @@ function addAdditionalGuest(parentId) {
     rsvp: '',
     notes: '',
     tableNumber: '',
+    tableSide: '',
+    seatNumber: '',
   });
   input.value = '';
   saveState();
@@ -4096,6 +4431,8 @@ function addGuestFromInput() {
     invited: false,
     thankYouSent: false,
     tableNumber: '',
+    tableSide: '',
+    seatNumber: '',
     additionalGuests: [],
   };
   state.guests.push(guest);
@@ -4123,7 +4460,7 @@ function exportGuestsCSV() {
     return;
   }
 
-  const header = ['Name', 'Party of', 'Role', 'Side', 'Group', 'Table', 'RSVP', 'Email', 'Phone', 'Address', 'Save-the-Date', 'Invited', 'Thank-You', 'Notes'];
+  const header = ['Name', 'Party of', 'Role', 'Side', 'Group', 'Table', 'Table Side', 'Seat', 'RSVP', 'Email', 'Phone', 'Address', 'Save-the-Date', 'Invited', 'Thank-You', 'Notes'];
   const rows = [header];
 
   const rsvpText = (r) => r === 'yes' ? 'Attending' : r === 'no' ? 'Declined' : r === 'maybe' ? 'Maybe' : 'No reply';
@@ -4140,6 +4477,8 @@ function exportGuestsCSV() {
       sideText(g.side),
       g.group || '',
       g.tableNumber || '',
+      g.tableSide || '',
+      g.seatNumber || '',
       rsvpText(g.rsvp),
       g.email || '',
       g.phone || '',
@@ -4149,7 +4488,7 @@ function exportGuestsCSV() {
       yn(g.thankYouSent),
       (g.notes || '').replace(/\n/g, ' '),
     ]);
-    // Additional guest rows — share party-level info, but each has their own table
+    // Additional guest rows — share party-level info, but each has their own table & seat
     (g.additionalGuests || []).forEach((a) => {
       rows.push([
         a.name || '',
@@ -4158,6 +4497,8 @@ function exportGuestsCSV() {
         sideText(g.side),
         g.group || '',
         a.tableNumber || '',
+        a.tableSide || '',
+        a.seatNumber || '',
         rsvpText(a.rsvp),
         '', // email blank for additional
         '', // phone blank for additional
