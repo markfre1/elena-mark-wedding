@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Sky Club — Attorney Contact Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f4f2ec;
+    --card:#fbfaf6;
+    --ink:#22272e;
+    --navy:#1f3a5f;
+    --navy-soft:#33507a;
+    --brass:#b07d3a;
+    --rule:#ddd6c7;
+    --rule-soft:#e9e3d6;
+    --muted:#6f6a5e;
+
+    --home:#3f6b4e;        /* your side */
+    --home-tint:#e7efe6;
+    --board:#8a4b3f;       /* opposing orientation */
+    --board-tint:#f1e7e3;
+
+    --s-none:#b4ad9d;
+    --s-msg:#c2954a;
+    --s-talk:#3f72a4;
+    --s-sched:#6f5fa3;
+    --s-retain:#3f8553;
+    --s-decline:#a8584a;
+
+    --shadow:0 1px 2px rgba(31,40,50,.05), 0 6px 18px rgba(31,40,50,.06);
+  }
+
+  *{box-sizing:border-box;}
+  html{-webkit-text-size-adjust:100%;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Inter",system-ui,sans-serif;
+    font-size:15px;
+    line-height:1.5;
+    background-image:radial-gradient(circle at 1px 1px, rgba(31,40,50,.035) 1px, transparent 0);
+    background-size:22px 22px;
+  }
+
+  .wrap{max-width:1000px;margin:0 auto;padding:32px 20px 80px;}
+
+  /* ---- Masthead ---- */
+  header.mast{
+    border-top:4px solid var(--navy);
+    background:linear-gradient(180deg,#fbfaf6, #f7f4ec);
+    border:1px solid var(--rule);
+    border-top:4px solid var(--navy);
+    border-radius:3px;
+    padding:24px 28px;
+    box-shadow:var(--shadow);
+    position:relative;
+  }
+  .eyebrow{
+    font-family:"Spline Sans Mono",monospace;
+    font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--brass);margin:0 0 8px;
+  }
+  h1{
+    font-family:"Fraunces",serif;
+    font-weight:600;
+    font-size:clamp(26px,4.4vw,40px);
+    line-height:1.04;
+    letter-spacing:-.01em;
+    margin:0 0 6px;
+    color:var(--navy);
+  }
+  .subtitle{margin:0;color:var(--muted);max-width:62ch;}
+  .caption{
+    margin-top:14px;padding-top:14px;border-top:1px solid var(--rule-soft);
+    font-size:13px;color:var(--muted);
+    display:flex;flex-wrap:wrap;gap:6px 18px;
+  }
+  .caption b{color:var(--ink);font-weight:600;}
+
+  /* ---- Toolbar ---- */
+  .toolbar{
+    display:flex;flex-wrap:wrap;align-items:center;gap:10px;
+    margin:18px 0 6px;
+  }
+  .progress{
+    flex:1 1 240px;font-size:13px;color:var(--muted);
+    font-family:"Spline Sans Mono",monospace;
+  }
+  .progress b{color:var(--navy);}
+  button.tool{
+    font-family:"Inter",sans-serif;font-size:13px;font-weight:500;
+    color:var(--navy);background:var(--card);
+    border:1px solid var(--rule);border-radius:999px;
+    padding:8px 15px;cursor:pointer;transition:background .15s,border-color .15s,transform .05s;
+  }
+  button.tool:hover{background:#fff;border-color:var(--navy-soft);}
+  button.tool:active{transform:translateY(1px);}
+  .saved{
+    font-family:"Spline Sans Mono",monospace;font-size:12px;color:var(--home);
+    opacity:0;transition:opacity .3s;
+  }
+  .saved.show{opacity:1;}
+
+  /* ---- Section ---- */
+  section{margin-top:34px;}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:4px;}
+  .sec-head h2{
+    font-family:"Fraunces",serif;font-weight:600;font-size:21px;
+    margin:0;color:var(--ink);letter-spacing:-.01em;
+  }
+  .sec-tag{
+    font-family:"Spline Sans Mono",monospace;font-size:11px;
+    letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;border-radius:999px;
+  }
+  .sec-tag.home{background:var(--home-tint);color:var(--home);}
+  .sec-tag.board{background:var(--board-tint);color:var(--board);}
+  .sec-note{margin:2px 0 16px;font-size:13.5px;color:var(--muted);max-width:74ch;}
+
+  /* ---- Firm card ---- */
+  .card{
+    position:relative;background:var(--card);
+    border:1px solid var(--rule);border-radius:4px;
+    box-shadow:var(--shadow);margin-bottom:16px;overflow:hidden;
+    transition:box-shadow .18s, transform .18s;
+  }
+  .card:hover{box-shadow:0 2px 4px rgba(31,40,50,.06),0 14px 30px rgba(31,40,50,.09);}
+  .spine{position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--s-none);transition:background .2s;}
+  .card-inner{padding:18px 22px 20px 26px;}
+
+  .firm-top{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline;justify-content:space-between;}
+  .firm-name{font-family:"Fraunces",serif;font-weight:600;font-size:18px;color:var(--navy);margin:0;}
+  .firm-name .atty{font-family:"Inter";font-weight:500;font-size:14px;color:var(--muted);}
+  .firm-loc{font-size:13px;color:var(--muted);}
+
+  .phone{
+    font-family:"Spline Sans Mono",monospace;font-size:15px;font-weight:500;
+    color:var(--navy);text-decoration:none;border-bottom:1px solid var(--brass);
+    padding-bottom:1px;white-space:nowrap;
+  }
+  .phone:hover{color:var(--brass);}
+  .phone.web{border-bottom-style:dotted;font-size:13px;}
+
+  .meta{margin:10px 0 0;font-size:13.5px;color:#4a4f57;}
+  .meta .role{
+    display:inline-block;font-family:"Spline Sans Mono",monospace;font-size:11px;
+    letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:4px;
+    margin-bottom:7px;
+  }
+  .role.best{background:#e7efe6;color:var(--home);}
+  .role.local{background:#fbf1df;color:var(--brass);}
+  .role.advisory{background:#efe9da;color:#7a6a3e;}
+  .role.backup{background:#e7edf3;color:var(--navy-soft);}
+  .role.oppose{background:var(--board-tint);color:var(--board);}
+
+  /* ---- Controls ---- */
+  .controls{
+    display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;
+    margin-top:16px;padding-top:15px;border-top:1px dashed var(--rule);
+  }
+  .field{display:flex;flex-direction:column;gap:4px;min-width:0;}
+  .field label{
+    font-family:"Spline Sans Mono",monospace;font-size:10.5px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted);
+  }
+  select,input[type="date"]{
+    font-family:"Inter",sans-serif;font-size:14px;color:var(--ink);
+    background:#fff;border:1px solid var(--rule);border-radius:4px;
+    padding:7px 9px;width:100%;
+  }
+  .checks{display:flex;flex-wrap:wrap;gap:9px 22px;margin-top:12px;}
+  .chk{display:flex;align-items:center;gap:8px;}
+  .chk input{width:17px;height:17px;accent-color:var(--home);}
+  .chk input.flag{accent-color:var(--board);}
+  .chk label{font-size:13px;color:#4a4f57;font-family:"Inter";text-transform:none;letter-spacing:0;}
+
+  .notes-field{margin-top:13px;}
+  .notes-field label{
+    font-family:"Spline Sans Mono",monospace;font-size:10.5px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px;
+  }
+  textarea{
+    width:100%;min-height:74px;resize:vertical;
+    font-family:"Inter",sans-serif;font-size:14px;line-height:1.5;color:var(--ink);
+    background:#fff;border:1px solid var(--rule);border-radius:4px;padding:10px 12px;
+  }
+  textarea:focus,select:focus,input:focus{outline:2px solid var(--navy-soft);outline-offset:1px;border-color:transparent;}
+
+  /* ---- General notes ---- */
+  .general{
+    margin-top:30px;background:var(--card);border:1px solid var(--rule);
+    border-left:4px solid var(--brass);border-radius:4px;padding:20px 22px;box-shadow:var(--shadow);
+  }
+  .general h3{font-family:"Fraunces",serif;font-weight:600;font-size:17px;margin:0 0 4px;color:var(--navy);}
+  .general p{margin:0 0 12px;font-size:13px;color:var(--muted);}
+
+  /* ---- Reference (fingertips) ---- */
+  .ref-head{display:flex;align-items:baseline;gap:12px;margin:40px 0 4px;}
+  .ref-head h2{font-family:"Fraunces",serif;font-weight:600;font-size:21px;margin:0;color:var(--ink);letter-spacing:-.01em;}
+  .ref-head .sec-tag{background:#eef0e5;color:#5d6b3e;}
+  .ref-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px;}
+  .ref{background:var(--card);border:1px solid var(--rule);border-radius:4px;padding:18px 20px;box-shadow:var(--shadow);}
+  .ref h3{font-family:"Fraunces",serif;font-weight:600;font-size:16px;margin:0 0 10px;color:var(--navy);}
+  .ref h3 .pin{color:var(--brass);font-family:"Spline Sans Mono",monospace;font-size:11px;letter-spacing:.1em;}
+  .ref dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:13.5px;}
+  .ref dt{font-family:"Spline Sans Mono",monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px;}
+  .ref dd{margin:0;color:#3a3f47;}
+  .ref dd b{color:var(--navy);}
+  .ref ul{margin:0;padding-left:18px;font-size:13.5px;color:#3a3f47;}
+  .ref ul li{margin-bottom:7px;line-height:1.45;}
+  .ref ul li b{color:var(--navy);}
+  .ref .tiny{font-size:12px;color:var(--muted);margin:10px 0 0;}
+  .ref.full{grid-column:1 / -1;}
+  .url-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:4px;}
+  .url-row input[type="url"]{
+    flex:1 1 280px;font-family:"Spline Sans Mono",monospace;font-size:13px;color:var(--ink);
+    background:#fff;border:1px solid var(--rule);border-radius:4px;padding:9px 11px;
+  }
+  .url-row a.open{
+    font-family:"Inter";font-size:13px;font-weight:500;color:#fff;background:var(--navy);
+    text-decoration:none;padding:9px 16px;border-radius:999px;white-space:nowrap;
+  }
+  .url-row a.open[aria-disabled="true"]{background:var(--rule);color:var(--muted);pointer-events:none;}
+
+  footer{margin-top:36px;font-size:12px;color:var(--muted);text-align:center;line-height:1.7;}
+  footer .rule{height:1px;background:var(--rule);margin-bottom:16px;}
+
+  @media (max-width:640px){
+    .ref-grid{grid-template-columns:1fr;}
+  }
+
+  @media (max-width:640px){
+    .controls{grid-template-columns:1fr;}
+    .card-inner{padding:16px 16px 18px 22px;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;}
+  }
+  @media print{
+    @page{ margin:0.5in; }
+    *{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    body{ background:#fff; background-image:none; font-size:11px; }
+    .wrap{ max-width:none; padding:0; }
+    .toolbar, .saved, #importer{ display:none !important; }
+    button.tool{ display:none !important; }
+    a.open, #hosted-open{ display:none !important; }
+    header.mast{ box-shadow:none; break-inside:avoid; }
+    .card, .general, .ref, .ref.full, .url-row, footer{ break-inside:avoid; box-shadow:none; }
+    .card{ border:1px solid #b9b9b9; }
+    select, input[type="date"], input[type="url"]{
+      border:1px solid #999; background:#fff;
+      -webkit-appearance:none; appearance:none;
+    }
+    textarea{
+      border:1px solid #999; background:#fff; min-height:62px;
+    }
+    a{ text-decoration:none; color:#1f3a5f; }
+    footer{ display:block; text-align:left; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="mast">
+    <p class="eyebrow">Case File · Board-Seat Dispute</p>
+    <h1>Attorney Contact Tracker</h1>
+    <p class="subtitle">Sky Club Condominium Association — Unit 4 (Masarsky / Zhukovskaya). Track who you've called, where each conversation stands, and what they said. Notes save automatically in this browser.</p>
+    <div class="caption">
+      <span><b>Matter:</b> wrongful exclusion from the board · cumulative voting</span>
+      <span><b>Venue:</b> Buncombe County, NC</span>
+      <span><b>Excluded:</b> Allen Stahl + Kilbourne (declined — undisclosed conflict)</span>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <div class="progress" id="progress">—</div>
+    <span class="saved" id="saved">Saved ✓</span>
+    <button class="tool" onclick="exportTxt()">Export notes (.txt)</button>
+    <button class="tool" onclick="exportJson()">Backup (.json)</button>
+    <button class="tool" onclick="importJson()">Restore backup</button>
+    <button class="tool" onclick="window.print()">Print / Save PDF</button>
+    <input type="file" id="importer" accept="application/json" style="display:none">
+  </div>
+
+  <section id="home-sec">
+    <div class="sec-head">
+      <h2>Your side</h2>
+      <span class="sec-tag home">Can represent you</span>
+    </div>
+    <p class="sec-note">Owner-side firms, closest to Asheville first. On every first call, confirm the firm has never represented Sky Club or its management company, and that they'll litigate if a demand letter doesn't resolve it.</p>
+    <div id="home-list"></div>
+  </section>
+
+  <section id="board-sec">
+    <div class="sec-head">
+      <h2>Board / association orientation</h2>
+      <span class="sec-tag board">Likely cannot represent you</span>
+    </div>
+    <p class="sec-note">These firms primarily represent associations. A firm here can only take your case if it has no relationship with Sky Club or its management company — and Ferikes won't take owner cases at all. Kept here for awareness and to map who may be on the other side.</p>
+    <div id="board-list"></div>
+  </section>
+
+  <div class="general">
+    <h3>General notes</h3>
+    <p>Referrals, the State Bar lawyer-referral line, questions to ask, deadlines, or anything that doesn't belong to one firm.</p>
+    <textarea id="general-notes" placeholder="e.g. NC State Bar referral service 800-662-7660 · ask each firm about retainer + hourly rate · confirm who currently represents the association…"></textarea>
+  </div>
+
+  <div class="ref-head">
+    <h2>Quick reference</h2>
+    <span class="sec-tag">For consult calls</span>
+  </div>
+  <div class="ref-grid">
+
+    <div class="ref">
+      <h3><span class="pin">01</span> &nbsp;Parties for the conflict check</h3>
+      <dl>
+        <dt>Owners (you)</dt>
+        <dd><b>Elena Masarsky</b> &amp; <b>Alina Zhukovskaya</b> — co-owners, Unit 4 (Penthouse), ~28.6% interest</dd>
+        <dt>Association</dt>
+        <dd><b>The Sky Club Condominium Association, Inc.</b> · a/k/a Ardmion Park Condominiums · possibly recorded as “Ardmion Condo Unit Owners Bradlen Corporation” (verify via NC Sec. of State)</dd>
+        <dt>Property</dt>
+        <dd>181 Ardmion Park, Asheville, NC 28801 · Buncombe County · 4 units</dd>
+        <dt>Other side</dt>
+        <dd>Board: <b>Alexandria Kron</b> (Unit 1), <b>Edward Flak</b> (Unit 2), <b>Susan Sprovieri</b> (Unit 3) · association counsel <b>unconfirmed</b> (Allen Stahl + Kilbourne declined citing an undisclosed conflict)</dd>
+      </dl>
+      <p class="tiny">Add the management company name here once you learn it:</p>
+      <textarea id="other-parties" placeholder="Management company / any other names to disclose for the conflict check…" style="min-height:52px;"></textarea>
+    </div>
+
+    <div class="ref">
+      <h3><span class="pin">02</span> &nbsp;What's being broken (30-second version)</h3>
+      <ul>
+        <li><b>Guaranteed seat denied.</b> Bylaws Art. IV §4 cumulative voting gives Unit 4 enough votes (4 &gt; 3.2) to elect one director — yet we're kept off the board.</li>
+        <li><b>Board too small.</b> Operating with 3 directors when Art. IV §1 (2021 amend.) requires 4.</li>
+        <li><b>No real election.</b> No properly noticed annual meeting or ballot election with cumulative voting (Art. III §§3, 5).</li>
+        <li><b>Permanent freeze-out.</b> The 3-unit bloc holds quorum + majority and excludes the 28.6% owner from all governance and financial oversight.</li>
+        <li><b>Removal-proof once seated.</b> Art. IV §7 protects a cumulatively elected director from being voted off.</li>
+        <li><b>Statutory hooks.</b> Fiduciary duty under N.C. Gen. Stat. §47C-3-103 &amp; §55A-8-30; fees under §47C-4-117.</li>
+      </ul>
+    </div>
+
+    <div class="ref full">
+      <h3><span class="pin">03</span> &nbsp;Hosted link (GitHub Pages)</h3>
+      <p class="tiny">Paste your GitHub Pages URL so you can open this tracker from any device. Saves automatically.</p>
+      <div class="url-row">
+        <input type="url" id="hosted-url" placeholder="https://markfre1.github.io/your-repo/Sky_Club_Attorney_Tracker.html">
+        <a class="open" id="hosted-open" aria-disabled="true" target="_blank" rel="noopener">Open</a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="rule"></div>
+    <b>Status:</b> Demand letter and counsel memo are in draft — nothing has been sent to the Board or provided to any attorney yet. Allen Stahl + Kilbourne was contacted and declined (undisclosed conflict). Next step: contact Craig or Thurman Wilson.<br><br>
+    Notes are stored only in this browser on this device. Use “Backup (.json)” to keep a copy or move it to another device.<br>
+    This is a personal tracking tool, not legal advice.
+  </footer>
+
+</div>
+
+<script>
+const FIRMS = [
+  // ---- Homeowner side ----
+  { id:"craig", side:"home", name:"Craig Law Firm, PLLC", atty:"Sam Craig",
+    loc:"Asheville · 223 E. Chestnut St.", phone:"8284841595",
+    role:["Strongest local","local"],
+    meta:"Owner-oriented; handles HOA & real-estate disputes and litigates in state and federal court (HOA is one of several areas). Generalist solo — vet responsiveness on the first call." },
+  { id:"dunnuck", side:"home", name:"Dunnuck Law Firm, PLLC", atty:"Erin Dunnuck",
+    loc:"Asheville · One Oak Plaza, Ste. 315", phone:"8283486392",
+    role:["Advisory only","advisory"],
+    meta:"Real community-association depth, but her practice is built around representing boards. Useful for a document-review second opinion — not lead counsel against a board. Conflict check essential." },
+  { id:"thurman", side:"home", name:"Thurman, Wilson, Boutwell & Galvin, P.A.", atty:"",
+    loc:"Charlotte · ~2 hrs from Asheville", phone:"7043774164",
+    role:["Strongest on merits","best"],
+    meta:"Dedicated owner-side community-association litigation with firm depth and trial/appellate experience opposing associations. Distance is the only tradeoff — any NC attorney can appear in Buncombe County." },
+  { id:"robinson", side:"home", name:"Robinson & Lawing, LLP", atty:"",
+    loc:"Winston-Salem · ~2.5 hrs from Asheville", phone:"3366318500",
+    role:["Owner-capable backup","backup"],
+    meta:"Represents both homeowners and associations; offers local counsel for out-of-state owners. Solid backup; farthest of the four." },
+
+  // ---- Board / association side ----
+  { id:"vanwinkle", side:"board", name:"Van Winkle Law Firm", atty:"",
+    loc:"Asheville · 11 N. Market St. (also Hendersonville)", phone:"8282582991",
+    role:["Association-side","oppose"],
+    meta:"Largest WNC-headquartered firm (est. 1907); business, real estate, litigation." },
+  { id:"roberts", side:"board", name:"Roberts & Stevens, P.A.", atty:"",
+    loc:"Asheville · 301 College St., Ste. 400", phone:"8282526600",
+    role:["Association-side","oppose"],
+    meta:"Full-service firm that lists Homeowners Association Law; states contact will not prevent it from representing a party adverse to you." },
+  { id:"ferikes", side:"board", name:"Ferikes Bleynat & Cannon, PLLC", atty:"",
+    loc:"Asheville · 67 Charlotte St. (also Waynesville)", phone:"8282511588",
+    role:["Associations only","oppose"],
+    meta:"Civil-litigation / real-estate trial firm — but exclusively represents associations, not individual owners. Will not take an owner's case." },
+  { id:"coward", side:"board", name:"Coward, Hicks & Siler, P.A.", atty:"",
+    loc:"Sylva / Franklin / Cashiers · Asheville office 28 Schenck Pkwy", phone:"8285246475",
+    role:["Association-side","oppose"],
+    meta:"Established 1951; real-estate specialists; counsel for numerous property-owners' associations and clubs." },
+  { id:"ward", side:"board", name:"Ward and Smith, P.A.", atty:"",
+    loc:"Asheville office · HQ eastern NC", phone:"", web:"wardandsmith.com",
+    role:["Association-side","oppose"],
+    meta:"Large firm with a community-associations practice." },
+  { id:"lfc", side:"board", name:"Law Firm Carolinas", atty:"",
+    loc:"Greensboro / Charlotte / Raleigh · no Asheville office", phone:"", web:"lawfirmcarolinas.com",
+    role:["Association-side","oppose"],
+    meta:"One of NC's largest HOA/condo-association practices — deep condo credentials, but almost entirely association-side." }
+];
+
+const STATUSES = [
+  ["none","Not contacted","--s-none"],
+  ["msg","Left message","--s-msg"],
+  ["talk","Spoke — considering","--s-talk"],
+  ["sched","Consult scheduled","--s-sched"],
+  ["retain","Retained","--s-retain"],
+  ["decline","Declined / conflict","--s-decline"]
+];
+const STATUS_COLOR = Object.fromEntries(STATUSES.map(s=>[s[0],getComputedStyle(document.documentElement).getPropertyValue(s[2])]));
+
+const KEY = "skyclub-attorney-tracker-v1";
+let store = load();
+
+function load(){
+  try { return JSON.parse(localStorage.getItem(KEY)) || {}; }
+  catch(e){ return {}; }
+}
+function save(){
+  try { localStorage.setItem(KEY, JSON.stringify(store)); flashSaved(); }
+  catch(e){ /* storage unavailable — export still works */ }
+}
+let savedTimer;
+function flashSaved(){
+  const el=document.getElementById("saved");
+  el.classList.add("show");
+  clearTimeout(savedTimer);
+  savedTimer=setTimeout(()=>el.classList.remove("show"),1100);
+}
+
+function rec(id){ return store[id] || (store[id]={status:"none",date:"",checked:false,conflict:false,notes:""}); }
+
+function fmtPhone(p){ return p ? `(${p.slice(0,3)}) ${p.slice(3,6)}-${p.slice(6)}` : ""; }
+
+function spineColor(status){ return STATUS_COLOR[status] || STATUS_COLOR.none; }
+
+function cardHTML(f){
+  const r = rec(f.id);
+  const phoneEl = f.phone
+    ? `<a class="phone" href="tel:${f.phone}">${fmtPhone(f.phone)}</a>`
+    : `<a class="phone web" href="https://${f.web}" target="_blank" rel="noopener">${f.web}</a>`;
+  const opts = STATUSES.map(s=>`<option value="${s[0]}" ${r.status===s[0]?"selected":""}>${s[1]}</option>`).join("");
+  const atty = f.atty ? ` <span class="atty">· ${f.atty}</span>` : "";
+  return `
+  <div class="card" id="card-${f.id}">
+    <div class="spine" id="spine-${f.id}" style="background:${spineColor(r.status)}"></div>
+    <div class="card-inner">
+      <div class="firm-top">
+        <h3 class="firm-name">${f.name}${atty}</h3>
+        ${phoneEl}
+      </div>
+      <div class="firm-loc">${f.loc}</div>
+      <p class="meta"><span class="role ${f.role[1]}">${f.role[0]}</span><br>${f.meta}</p>
+      <div class="controls">
+        <div class="field">
+          <label for="st-${f.id}">Status</label>
+          <select id="st-${f.id}" onchange="upd('${f.id}','status',this.value)">${opts}</select>
+        </div>
+        <div class="field">
+          <label for="dt-${f.id}">Date contacted</label>
+          <input type="date" id="dt-${f.id}" value="${r.date}" onchange="upd('${f.id}','date',this.value)">
+        </div>
+      </div>
+      <div class="checks">
+        <div class="chk">
+          <input type="checkbox" class="flag" id="ck-${f.id}" ${r.checked?"checked":""} onchange="upd('${f.id}','checked',this.checked)">
+          <label for="ck-${f.id}">Conflict exists</label>
+        </div>
+        <div class="chk">
+          <input type="checkbox" id="cf-${f.id}" ${r.conflict?"checked":""} onchange="upd('${f.id}','conflict',this.checked)">
+          <label for="cf-${f.id}">Conflict cleared</label>
+        </div>
+      </div>
+      <div class="notes-field">
+        <label for="nt-${f.id}">Notes &amp; comments</label>
+        <textarea id="nt-${f.id}" placeholder="Who you spoke with, fees / retainer, availability, their read on the case, follow-up date…" oninput="upd('${f.id}','notes',this.value)">${r.notes||""}</textarea>
+      </div>
+    </div>
+  </div>`;
+}
+
+function render(){
+  document.getElementById("home-list").innerHTML  = FIRMS.filter(f=>f.side==="home").map(cardHTML).join("");
+  document.getElementById("board-list").innerHTML = FIRMS.filter(f=>f.side==="board").map(cardHTML).join("");
+  const gn=document.getElementById("general-notes");
+  gn.value = store.__general || "";
+  gn.addEventListener("input", ()=>{ store.__general=gn.value; save(); });
+
+  const op=document.getElementById("other-parties");
+  op.value = store.__otherParties || "";
+  op.addEventListener("input", ()=>{ store.__otherParties=op.value; save(); });
+
+  const hu=document.getElementById("hosted-url");
+  hu.value = store.__hostedUrl || "";
+  syncHostedLink();
+  hu.addEventListener("input", ()=>{ store.__hostedUrl=hu.value.trim(); syncHostedLink(); save(); });
+
+  updateProgress();
+}
+
+function syncHostedLink(){
+  const v=(document.getElementById("hosted-url").value||"").trim();
+  const a=document.getElementById("hosted-open");
+  if(v && /^https?:\/\//i.test(v)){ a.href=v; a.setAttribute("aria-disabled","false"); }
+  else { a.removeAttribute("href"); a.setAttribute("aria-disabled","true"); }
+}
+
+function upd(id,key,val){
+  rec(id)[key]=val;
+  if(key==="status"){ document.getElementById("spine-"+id).style.background = spineColor(val); updateProgress(); }
+  save();
+}
+
+function updateProgress(){
+  const firms = FIRMS.map(f=>rec(f.id));
+  const contacted = firms.filter(r=>r.status && r.status!=="none").length;
+  const retained = firms.filter(r=>r.status==="retain").length;
+  const sched = firms.filter(r=>r.status==="sched").length;
+  let txt = `${contacted} of ${FIRMS.length} contacted`;
+  if(sched) txt += ` · ${sched} consult${sched>1?"s":""} scheduled`;
+  if(retained) txt += ` · ${retained} retained`;
+  document.getElementById("progress").innerHTML = `<b>${txt}</b>`;
+}
+
+/* ---- Export / backup ---- */
+function download(name, text, type){
+  const blob=new Blob([text],{type});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;a.download=name;a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function statusLabel(s){ const m=STATUSES.find(x=>x[0]===s); return m?m[1]:"Not contacted"; }
+function exportTxt(){
+  const lines=["SKY CLUB — ATTORNEY CONTACT TRACKER","Generated "+new Date().toLocaleString(),""];
+  for(const grp of [["YOUR SIDE — CAN REPRESENT YOU","home"],["BOARD / ASSOCIATION ORIENTATION","board"]]){
+    lines.push("="+grp[0]+"=");
+    FIRMS.filter(f=>f.side===grp[1]).forEach(f=>{
+      const r=rec(f.id);
+      lines.push("");
+      lines.push(f.name+(f.atty?" ("+f.atty+")":""));
+      lines.push("  "+f.loc);
+      lines.push("  Phone: "+(f.phone?fmtPhone(f.phone):f.web));
+      lines.push("  Status: "+statusLabel(r.status)+(r.date?"  ·  Contacted "+r.date:""));
+      const conf=[]; if(r.checked) conf.push("conflict exists"); if(r.conflict) conf.push("conflict cleared");
+      lines.push("  Conflict: "+(conf.length?conf.join(", "):"—"));
+      lines.push("  Notes: "+(r.notes? r.notes.replace(/\n/g,"\n         ") : "—"));
+    });
+    lines.push("");
+  }
+  lines.push("=PARTIES FOR CONFLICT CHECK=");
+  lines.push("Owners: Elena Masarsky & Alina Zhukovskaya — Unit 4 (Penthouse), ~28.6%");
+  lines.push("Association: The Sky Club Condominium Association, Inc. (a/k/a Ardmion Park Condominiums)");
+  lines.push("Property: 181 Ardmion Park, Asheville, NC 28801 (Buncombe County)");
+  lines.push("Other side: Alexandria Kron (U1), Edward Flak (U2), Susan Sprovieri (U3); counsel likely Allen Stahl + Kilbourne");
+  if(store.__otherParties) lines.push("Other names to disclose: "+store.__otherParties);
+  lines.push("");
+  if(store.__hostedUrl){ lines.push("Hosted: "+store.__hostedUrl,""); }
+  if(store.__general){ lines.push("=GENERAL NOTES=",store.__general); }
+  download("sky-club-attorney-notes.txt", lines.join("\n"), "text/plain");
+}
+function exportJson(){
+  download("sky-club-attorney-tracker-backup.json", JSON.stringify(store,null,2), "application/json");
+}
+function importJson(){
+  document.getElementById("importer").click();
+}
+document.getElementById("importer").addEventListener("change", e=>{
+  const file=e.target.files[0]; if(!file) return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const data=JSON.parse(reader.result);
+      if(typeof data==="object"){ store=data; save(); render(); }
+    }catch(err){ alert("That file couldn't be read as a backup. Pick the .json file you exported."); }
+  };
+  reader.readAsText(file);
+});
+
+render();
+</script>
+</body>
+</html>
