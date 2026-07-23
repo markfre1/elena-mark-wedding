@@ -1698,6 +1698,73 @@
 
   .field-full { grid-column: 1 / -1; }
 
+  /* Toolbar dropdown menus */
+  .menu-wrap { display: inline-block; }
+
+  .menu-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    box-shadow: var(--shadow-lg);
+    min-width: 240px;
+    z-index: 50;
+    overflow: hidden;
+  }
+
+  .menu-dropdown.show { display: block; }
+
+  .menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    background: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+
+  .menu-item:last-child { border-bottom: none; }
+  .menu-item:hover { background: var(--cream); }
+
+  .menu-item-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+
+  .menu-item-hint {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.7rem;
+    color: var(--ink-muted);
+    font-style: italic;
+    letter-spacing: 0.02em;
+  }
+
+  .address-city-state-zip {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .address-city-state-zip {
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.5rem;
+    }
+  }
+
   .field-label {
     font-size: 0.7rem;
     letter-spacing: 0.15em;
@@ -2349,14 +2416,48 @@
         <button class="guest-filter-pill" data-filter="pending" onclick="setGuestFilter('pending')">No Reply</button>
         <button class="guest-filter-pill" data-filter="no" onclick="setGuestFilter('no')">Declined</button>
         <button class="guest-filter-pill" id="sortByTableBtn" onclick="toggleSortByTable()" title="Group guests by table number">By Table</button>
-        <button class="btn btn-primary" onclick="window.print()" style="margin-left: auto;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
-          Print
-        </button>
-        <button class="btn btn-ghost" onclick="exportGuestsCSV()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Export CSV
-        </button>
+
+        <div class="menu-wrap" style="margin-left: auto; position: relative;">
+          <button class="btn btn-primary" onclick="toggleMenu('printMenu')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+            Print ▾
+          </button>
+          <div class="menu-dropdown" id="printMenu">
+            <button class="menu-item" onclick="window.print(); closeMenus();">
+              <span class="menu-item-title">Print Guest List</span>
+              <span class="menu-item-hint">The full list on this page</span>
+            </button>
+            <button class="menu-item" onclick="printAddressLabels(); closeMenus();">
+              <span class="menu-item-title">Print Mailing Labels</span>
+              <span class="menu-item-hint">Avery 5160 · 30 per sheet</span>
+            </button>
+            <button class="menu-item" onclick="printAddressList(); closeMenus();">
+              <span class="menu-item-title">Print Address Checklist</span>
+              <span class="menu-item-hint">List with a "sent" checkbox</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="menu-wrap" style="position: relative;">
+          <button class="btn btn-ghost" onclick="toggleMenu('exportMenu')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export ▾
+          </button>
+          <div class="menu-dropdown" id="exportMenu">
+            <button class="menu-item" onclick="exportGuestsCSV(); closeMenus();">
+              <span class="menu-item-title">Full Guest List (CSV)</span>
+              <span class="menu-item-hint">Everyone with every field</span>
+            </button>
+            <button class="menu-item" onclick="exportAddressesCSV(); closeMenus();">
+              <span class="menu-item-title">Mailing Addresses (CSV)</span>
+              <span class="menu-item-hint">One row per party</span>
+            </button>
+            <button class="menu-item" onclick="exportEmailsCSV(); closeMenus();">
+              <span class="menu-item-title">Emails (CSV)</span>
+              <span class="menu-item-hint">One row per party with email</span>
+            </button>
+          </div>
+        </div>
       </div>
 
       <div class="guest-table-wrap" id="guestTableWrap"></div>
@@ -2632,32 +2733,44 @@ async function loadState() {
     if (data && data.data) {
       const incomingGuests = Array.isArray(data.data.guests) ? data.data.guests : [];
       // Normalize structure — drop any legacy plusOneName fields, ensure additionalGuests exists
-      const normalizedGuests = incomingGuests.map((g) => ({
-        id: g.id,
-        name: g.name || '',
-        side: g.side || '',
-        group: g.group || '',
-        email: g.email || '',
-        phone: g.phone || '',
-        address: g.address || '',
-        notes: g.notes || '',
-        rsvp: g.rsvp || '',
-        savedTheDate: !!g.savedTheDate,
-        invited: !!g.invited,
-        thankYouSent: !!g.thankYouSent,
-        tableNumber: g.tableNumber || '',
-        tableSide: g.tableSide || '',
-        seatNumber: g.seatNumber || '',
-        additionalGuests: Array.isArray(g.additionalGuests) ? g.additionalGuests.map((a) => ({
-          id: a.id,
-          name: a.name || '',
-          rsvp: a.rsvp || '',
-          notes: a.notes || '',
-          tableNumber: a.tableNumber || '',
-          tableSide: a.tableSide || '',
-          seatNumber: a.seatNumber || '',
-        })) : [],
-      }));
+      const normalizedGuests = incomingGuests.map((g) => {
+        // Migrate legacy single-line `address` into address1 if the new fields
+        // are empty. This runs harmlessly on data that's already migrated.
+        let address1 = g.address1 || '';
+        if (!address1 && !g.city && !g.state && !g.zip && g.address) {
+          address1 = g.address;
+        }
+        return {
+          id: g.id,
+          name: g.name || '',
+          side: g.side || '',
+          group: g.group || '',
+          email: g.email || '',
+          phone: g.phone || '',
+          address1: address1,
+          address2: g.address2 || '',
+          city: g.city || '',
+          state: g.state || '',
+          zip: g.zip || '',
+          notes: g.notes || '',
+          rsvp: g.rsvp || '',
+          savedTheDate: !!g.savedTheDate,
+          invited: !!g.invited,
+          thankYouSent: !!g.thankYouSent,
+          tableNumber: g.tableNumber || '',
+          tableSide: g.tableSide || '',
+          seatNumber: g.seatNumber || '',
+          additionalGuests: Array.isArray(g.additionalGuests) ? g.additionalGuests.map((a) => ({
+            id: a.id,
+            name: a.name || '',
+            rsvp: a.rsvp || '',
+            notes: a.notes || '',
+            tableNumber: a.tableNumber || '',
+            tableSide: a.tableSide || '',
+            seatNumber: a.seatNumber || '',
+          })) : [],
+        };
+      });
       state = {
         items: data.data.items || {},
         customItems: data.data.customItems || {},
@@ -2694,32 +2807,44 @@ function subscribeToChanges() {
         return;
       }
       const incomingGuests = Array.isArray(incoming.guests) ? incoming.guests : [];
-      const normalizedGuests = incomingGuests.map((g) => ({
-        id: g.id,
-        name: g.name || '',
-        side: g.side || '',
-        group: g.group || '',
-        email: g.email || '',
-        phone: g.phone || '',
-        address: g.address || '',
-        notes: g.notes || '',
-        rsvp: g.rsvp || '',
-        savedTheDate: !!g.savedTheDate,
-        invited: !!g.invited,
-        thankYouSent: !!g.thankYouSent,
-        tableNumber: g.tableNumber || '',
-        tableSide: g.tableSide || '',
-        seatNumber: g.seatNumber || '',
-        additionalGuests: Array.isArray(g.additionalGuests) ? g.additionalGuests.map((a) => ({
-          id: a.id,
-          name: a.name || '',
-          rsvp: a.rsvp || '',
-          notes: a.notes || '',
-          tableNumber: a.tableNumber || '',
-          tableSide: a.tableSide || '',
-          seatNumber: a.seatNumber || '',
-        })) : [],
-      }));
+      const normalizedGuests = incomingGuests.map((g) => {
+        // Migrate legacy single-line `address` into address1 if the new fields
+        // are empty. This runs harmlessly on data that's already migrated.
+        let address1 = g.address1 || '';
+        if (!address1 && !g.city && !g.state && !g.zip && g.address) {
+          address1 = g.address;
+        }
+        return {
+          id: g.id,
+          name: g.name || '',
+          side: g.side || '',
+          group: g.group || '',
+          email: g.email || '',
+          phone: g.phone || '',
+          address1: address1,
+          address2: g.address2 || '',
+          city: g.city || '',
+          state: g.state || '',
+          zip: g.zip || '',
+          notes: g.notes || '',
+          rsvp: g.rsvp || '',
+          savedTheDate: !!g.savedTheDate,
+          invited: !!g.invited,
+          thankYouSent: !!g.thankYouSent,
+          tableNumber: g.tableNumber || '',
+          tableSide: g.tableSide || '',
+          seatNumber: g.seatNumber || '',
+          additionalGuests: Array.isArray(g.additionalGuests) ? g.additionalGuests.map((a) => ({
+            id: a.id,
+            name: a.name || '',
+            rsvp: a.rsvp || '',
+            notes: a.notes || '',
+            tableNumber: a.tableNumber || '',
+            tableSide: a.tableSide || '',
+            seatNumber: a.seatNumber || '',
+          })) : [],
+        };
+      });
       state = {
         items: incoming.items || {},
         customItems: incoming.customItems || {},
@@ -3557,7 +3682,25 @@ function renderGuestDetail(g) {
       </div>
       <div class="field field-full">
         <label class="field-label">Mailing Address</label>
-        <input class="field-input" type="text" value="${escapeAttr(g.address || '')}" placeholder="For invitations & save-the-dates" oninput="updateGuestField('${g.id}', 'address', this.value)">
+        <input class="field-input" type="text" value="${escapeAttr(g.address1 || '')}" placeholder="Address line 1 (street, apt#)" oninput="updateGuestField('${g.id}', 'address1', this.value)">
+      </div>
+      <div class="field field-full">
+        <label class="field-label" style="visibility:hidden;">Address 2</label>
+        <input class="field-input" type="text" value="${escapeAttr(g.address2 || '')}" placeholder="Address line 2 (optional)" oninput="updateGuestField('${g.id}', 'address2', this.value)">
+      </div>
+      <div class="address-city-state-zip">
+        <div class="field">
+          <label class="field-label">City</label>
+          <input class="field-input" type="text" value="${escapeAttr(g.city || '')}" placeholder="City" oninput="updateGuestField('${g.id}', 'city', this.value)">
+        </div>
+        <div class="field">
+          <label class="field-label">State</label>
+          <input class="field-input" type="text" value="${escapeAttr(g.state || '')}" placeholder="FL" maxlength="20" oninput="updateGuestField('${g.id}', 'state', this.value)">
+        </div>
+        <div class="field">
+          <label class="field-label">Zip</label>
+          <input class="field-input" type="text" value="${escapeAttr(g.zip || '')}" placeholder="Zip" maxlength="10" oninput="updateGuestField('${g.id}', 'zip', this.value)">
+        </div>
       </div>
       <div class="field field-full">
         <label class="field-label">${escapeHtml(g.name || 'Main guest')}'s RSVP</label>
@@ -4197,7 +4340,11 @@ function quickAddPersonToTable() {
       group: '',
       email: '',
       phone: '',
-      address: '',
+      address1: '',
+      address2: '',
+      city: '',
+      state: '',
+      zip: '',
       notes: '',
       rsvp: '',
       savedTheDate: false,
@@ -4424,7 +4571,11 @@ function addGuestFromInput() {
     group: '',
     email: '',
     phone: '',
-    address: '',
+    address1: '',
+    address2: '',
+    city: '',
+    state: '',
+    zip: '',
     notes: '',
     rsvp: '',
     savedTheDate: false,
@@ -4460,7 +4611,7 @@ function exportGuestsCSV() {
     return;
   }
 
-  const header = ['Name', 'Party of', 'Role', 'Side', 'Group', 'Table', 'Table Side', 'Seat', 'RSVP', 'Email', 'Phone', 'Address', 'Save-the-Date', 'Invited', 'Thank-You', 'Notes'];
+  const header = ['Name', 'Party of', 'Role', 'Side', 'Group', 'Table', 'Table Side', 'Seat', 'RSVP', 'Email', 'Phone', 'Address 1', 'Address 2', 'City', 'State', 'Zip', 'Save-the-Date', 'Invited', 'Thank-You', 'Notes'];
   const rows = [header];
 
   const rsvpText = (r) => r === 'yes' ? 'Attending' : r === 'no' ? 'Declined' : r === 'maybe' ? 'Maybe' : 'No reply';
@@ -4482,7 +4633,11 @@ function exportGuestsCSV() {
       rsvpText(g.rsvp),
       g.email || '',
       g.phone || '',
-      g.address || '',
+      g.address1 || '',
+      g.address2 || '',
+      g.city || '',
+      g.state || '',
+      g.zip || '',
       yn(g.savedTheDate),
       yn(g.invited),
       yn(g.thankYouSent),
@@ -4502,7 +4657,11 @@ function exportGuestsCSV() {
         rsvpText(a.rsvp),
         '', // email blank for additional
         '', // phone blank for additional
-        g.address || '', // share mailing address
+        g.address1 || '',
+        g.address2 || '',
+        g.city || '',
+        g.state || '',
+        g.zip || '',
         yn(g.savedTheDate),
         yn(g.invited),
         yn(g.thankYouSent),
@@ -4511,6 +4670,61 @@ function exportGuestsCSV() {
     });
   });
 
+  downloadCsv(rows, 'wedding-guest-list.csv');
+  const totalPeople = rows.length - 1;
+  showToast(`Exported ${totalPeople} ${totalPeople === 1 ? 'person' : 'people'}`);
+}
+
+// ─────────── Export ONLY mailing addresses (one row per party) ───────────
+function exportAddressesCSV() {
+  const guests = state.guests || [];
+  // Filter to parties with any address info
+  const withAddress = guests.filter((g) =>
+    (g.address1 || g.address2 || g.city || g.state || g.zip)
+  );
+  if (withAddress.length === 0) {
+    showToast('No addresses to export');
+    return;
+  }
+  const header = ['Name', 'Address 1', 'Address 2', 'City', 'State', 'Zip'];
+  const rows = [header];
+  withAddress.forEach((g) => {
+    rows.push([
+      g.name || '',
+      g.address1 || '',
+      g.address2 || '',
+      g.city || '',
+      g.state || '',
+      g.zip || '',
+    ]);
+  });
+  downloadCsv(rows, 'wedding-addresses.csv');
+  showToast(`Exported ${withAddress.length} ${withAddress.length === 1 ? 'address' : 'addresses'}`);
+}
+
+// ─────────── Export ONLY emails (one row per party) ───────────
+function exportEmailsCSV() {
+  const guests = state.guests || [];
+  const withEmail = guests.filter((g) => g.email && g.email.trim());
+  if (withEmail.length === 0) {
+    showToast('No emails to export');
+    return;
+  }
+  const header = ['Name', 'Email', 'Phone'];
+  const rows = [header];
+  withEmail.forEach((g) => {
+    rows.push([
+      g.name || '',
+      g.email || '',
+      g.phone || '',
+    ]);
+  });
+  downloadCsv(rows, 'wedding-emails.csv');
+  showToast(`Exported ${withEmail.length} ${withEmail.length === 1 ? 'email' : 'emails'}`);
+}
+
+// Shared CSV writer
+function downloadCsv(rows, filename) {
   const csv = rows.map((row) =>
     row.map((cell) => {
       const s = String(cell);
@@ -4525,14 +4739,285 @@ function exportGuestsCSV() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'wedding-guest-list.csv';
+  a.download = filename;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   setTimeout(() => URL.revokeObjectURL(url), 100);
+}
 
-  const totalPeople = rows.length - 1;
-  showToast(`Exported ${totalPeople} ${totalPeople === 1 ? 'person' : 'people'}`);
+// ─────────── Print mailing labels ───────────
+// Opens a new window formatted as Avery 5160 labels (3 cols × 10 rows on Letter)
+function printAddressLabels() {
+  const guests = state.guests || [];
+  const withAddress = guests.filter((g) =>
+    (g.address1 || g.address2 || g.city || g.state || g.zip)
+  );
+  if (withAddress.length === 0) {
+    showToast('No addresses to print');
+    return;
+  }
+
+  // Build label HTML
+  const labelsHtml = withAddress.map((g) => {
+    const nameLine = escapeHtml(g.name || '');
+    const line1 = g.address1 ? `<div>${escapeHtml(g.address1)}</div>` : '';
+    const line2 = g.address2 ? `<div>${escapeHtml(g.address2)}</div>` : '';
+    // City, ST Zip
+    const cityStateZip = [
+      g.city ? escapeHtml(g.city) : '',
+      g.state ? escapeHtml(g.state) : '',
+      g.zip ? escapeHtml(g.zip) : '',
+    ];
+    let csz = '';
+    if (cityStateZip[0]) csz += cityStateZip[0];
+    if (cityStateZip[1]) csz += (csz ? ', ' : '') + cityStateZip[1];
+    if (cityStateZip[2]) csz += (csz ? ' ' : '') + cityStateZip[2];
+    const cszLine = csz ? `<div>${csz}</div>` : '';
+    return `<div class="label">
+      <div class="label-name">${nameLine}</div>
+      ${line1}${line2}${cszLine}
+    </div>`;
+  }).join('');
+
+  const styles = `
+    <style>
+      * { box-sizing: border-box; }
+      @page { size: letter; margin: 0.5in 0.19in; }
+      body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; color: #000; }
+      .toolbar {
+        padding: 12px 20px;
+        background: #6B2C39;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .toolbar h1 { margin: 0; font-size: 16px; font-weight: 500; letter-spacing: 0.03em; }
+      .toolbar button {
+        background: white;
+        color: #6B2C39;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 3px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+      .toolbar button:hover { background: #f0e9dd; }
+      .toolbar .toolbar-hint {
+        font-size: 11px;
+        opacity: 0.85;
+        font-style: italic;
+      }
+      .sheet {
+        padding: 20px;
+      }
+      .sheet-inner {
+        display: grid;
+        grid-template-columns: repeat(3, 2.625in);
+        grid-auto-rows: 1in;
+        gap: 0;
+        justify-content: center;
+      }
+      .label {
+        padding: 0.15in 0.2in;
+        font-size: 11pt;
+        line-height: 1.25;
+        border: 1px dashed #ccc;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .label-name {
+        font-weight: 700;
+        margin-bottom: 2px;
+        font-size: 11.5pt;
+      }
+      .label div { margin: 0; }
+
+      @media print {
+        .toolbar { display: none; }
+        .sheet { padding: 0; }
+        .label { border: none; }
+        body { background: white; }
+      }
+    </style>
+  `;
+
+  const html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Mailing Labels — Elena & Mark</title>
+  ${styles}
+</head>
+<body>
+  <div class="toolbar">
+    <h1>Mailing Labels — ${withAddress.length} addresses</h1>
+    <span class="toolbar-hint">Avery 5160 layout — 3 columns × 10 rows on Letter paper</span>
+    <button onclick="window.print()">Print</button>
+  </div>
+  <div class="sheet">
+    <div class="sheet-inner">
+      ${labelsHtml}
+    </div>
+  </div>
+</body>
+</html>`;
+
+  const w = window.open('', '_blank');
+  if (!w) {
+    showToast('Popup blocked — allow popups for this site and try again');
+    return;
+  }
+  w.document.write(html);
+  w.document.close();
+}
+
+// ─────────── Print address list (simpler format — for a mailing checklist) ───────────
+function printAddressList() {
+  const guests = state.guests || [];
+  const withAddress = guests.filter((g) =>
+    (g.address1 || g.address2 || g.city || g.state || g.zip)
+  );
+  if (withAddress.length === 0) {
+    showToast('No addresses to print');
+    return;
+  }
+
+  const rowsHtml = withAddress.map((g, i) => {
+    const cityStateZip = [
+      g.city ? escapeHtml(g.city) : '',
+      g.state ? escapeHtml(g.state) : '',
+      g.zip ? escapeHtml(g.zip) : '',
+    ];
+    let csz = '';
+    if (cityStateZip[0]) csz += cityStateZip[0];
+    if (cityStateZip[1]) csz += (csz ? ', ' : '') + cityStateZip[1];
+    if (cityStateZip[2]) csz += (csz ? ' ' : '') + cityStateZip[2];
+
+    return `<tr>
+      <td class="idx">${i + 1}</td>
+      <td class="name">${escapeHtml(g.name || '')}</td>
+      <td class="addr">
+        ${g.address1 ? escapeHtml(g.address1) + '<br>' : ''}
+        ${g.address2 ? escapeHtml(g.address2) + '<br>' : ''}
+        ${csz}
+      </td>
+      <td class="check">&#9634;</td>
+    </tr>`;
+  }).join('');
+
+  const styles = `
+    <style>
+      @page { size: letter; margin: 0.5in; }
+      body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; color: #2A2420; }
+      .toolbar {
+        padding: 12px 20px;
+        background: #6B2C39;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .toolbar h1 { margin: 0; font-size: 16px; font-weight: 500; letter-spacing: 0.03em; }
+      .toolbar button {
+        background: white;
+        color: #6B2C39;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 3px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+      .page {
+        padding: 24px;
+      }
+      h2 {
+        font-family: 'Times New Roman', serif;
+        font-size: 24pt;
+        font-weight: normal;
+        margin: 0 0 4px;
+        color: #2A2420;
+      }
+      .subtitle {
+        color: #8A7E74;
+        font-style: italic;
+        margin-bottom: 20px;
+        font-size: 11pt;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 10pt;
+      }
+      th {
+        text-align: left;
+        padding: 6px 8px;
+        background: #f0e9dd;
+        color: #6B2C39;
+        font-size: 8pt;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        border-bottom: 1px solid #6B2C39;
+      }
+      td {
+        padding: 8px;
+        border-bottom: 1px solid #e8dfd2;
+        vertical-align: top;
+      }
+      td.idx { width: 30px; color: #8A7E74; text-align: right; }
+      td.name { width: 32%; font-weight: 600; }
+      td.addr { line-height: 1.35; }
+      td.check { width: 30px; text-align: center; font-size: 16pt; color: #8A7E74; }
+      @media print {
+        .toolbar { display: none; }
+        .page { padding: 0; }
+      }
+    </style>
+  `;
+
+  const html = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Address List — Elena & Mark</title>
+  ${styles}
+</head>
+<body>
+  <div class="toolbar">
+    <h1>Address List — ${withAddress.length} addresses</h1>
+    <button onclick="window.print()">Print</button>
+  </div>
+  <div class="page">
+    <h2>Elena &amp; Mark's Wedding</h2>
+    <div class="subtitle">Mailing address list &middot; ${withAddress.length} recipients &middot; ${new Date().toLocaleDateString()}</div>
+    <table>
+      <thead>
+        <tr><th>#</th><th>Name</th><th>Address</th><th>Sent</th></tr>
+      </thead>
+      <tbody>
+        ${rowsHtml}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>`;
+
+  const w = window.open('', '_blank');
+  if (!w) {
+    showToast('Popup blocked — allow popups for this site and try again');
+    return;
+  }
+  w.document.write(html);
+  w.document.close();
 }
 
 function showToast(msg) {
@@ -4541,6 +5026,23 @@ function showToast(msg) {
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2000);
 }
+
+function toggleMenu(id) {
+  const menu = document.getElementById(id);
+  if (!menu) return;
+  const wasOpen = menu.classList.contains('show');
+  closeMenus();
+  if (!wasOpen) menu.classList.add('show');
+}
+
+function closeMenus() {
+  document.querySelectorAll('.menu-dropdown').forEach((m) => m.classList.remove('show'));
+}
+
+// Close menus on outside click
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.menu-wrap')) closeMenus();
+});
 
 function confirmReset() {
   document.getElementById('modal').classList.add('show');
